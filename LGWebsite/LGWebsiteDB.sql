@@ -1,0 +1,126 @@
+CREATE TABLE Categories (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NULL,
+    ImageUrl NVARCHAR(255) NULL,
+    IsDeleted BIT NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    UpdateBy NVARCHAR(MAX) NULL,
+    PositionTab NVARCHAR(MAX) NULL
+);
+GO
+CREATE TABLE BlogsCategory (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryId INT NOT NULL,
+    Name NVARCHAR(255) NULL,
+    Description NVARCHAR(MAX) NULL,
+    Detail NVARCHAR(MAX) NULL,
+    IsDeleted BIT NULL,
+    IsDraft BIT NULL,
+    IsHome BIT NULL,
+    ImageUrl NVARCHAR(255) NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    UpdateBy NVARCHAR(MAX) NULL,
+    [Order] INT NOT NULL,
+    Color VARCHAR(20) NULL,
+    Position NVARCHAR(MAX) NULL,
+    Features NVARCHAR(MAX) NULL,
+);
+GO
+CREATE TABLE Web_Configuration (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    ConfigKey NVARCHAR(255) NOT NULL,
+    ConfigValue NVARCHAR(MAX) NOT NULL,
+    Description NVARCHAR(500) NOT NULL,
+    UpdateBy NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE System_Configuration (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    ConfigKey NVARCHAR(255) NOT NULL,
+    ConfigValue NVARCHAR(MAX) NOT NULL,
+    Description NVARCHAR(500) NOT NULL,
+    UpdateBy NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE Slides (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    ImageUrl NVARCHAR(255) NULL,
+    Url NVARCHAR(500) NULL,
+    IsEnabled BIT NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    UpdateBy NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE Videos (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    BlogCategoryId INT NOT NULL,
+    LinkUrl NVARCHAR(MAX) NULL,
+    Description NVARCHAR(MAX) NULL,
+);
+GO
+
+CREATE TABLE Contacts (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(255) NOT NULL,
+    Message NVARCHAR(500) NOT NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    Phone NVARCHAR(MAX) NULL,
+    IsRead BIT NOT NULL,
+    UpdateBy NVARCHAR(MAX) NULL
+);
+GO
+
+CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserName NVARCHAR(255) NULL,
+    PassWord NVARCHAR(255) NULL,
+    Email NVARCHAR(255) NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    Active BIT NOT NULL,
+    ImageUrl NVARCHAR(MAX) NULL,
+    Role INT NOT NULL
+);
+GO
+
+
+
+
+CREATE TABLE Upload (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    ImageUrl NVARCHAR(500) NULL,
+    ImageThumbUrl NVARCHAR(500) NULL,
+    ImageIconUrl NVARCHAR(500) NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL
+);
+GO
+
+CREATE TABLE Menu (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(255) NULL,
+    ImageUrl NVARCHAR(255) NULL,
+    Icon NVARCHAR(255) NULL,
+    ParentId INT NULL,
+    SortOrder INT NULL,
+    PositionType INT NULL,
+    DateCreated DATETIMEOFFSET(7) NULL,
+    DateModified DATETIMEOFFSET(7) NULL,
+    UpdateBy NVARCHAR(MAX) NULL,
+    LinkUrl NVARCHAR(MAX) NULL,
+);
+GO
+
+
