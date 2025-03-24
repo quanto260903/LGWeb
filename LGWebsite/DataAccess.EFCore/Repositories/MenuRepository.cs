@@ -10,7 +10,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class MenuRepository : GenericRepository<Menu>, IMenuRepository
     {
-        public MenuRepository(AodwebsiteContext context) : base(context)
+        public MenuRepository(LgwebsiteContext context) : base(context)
         {
         }
 

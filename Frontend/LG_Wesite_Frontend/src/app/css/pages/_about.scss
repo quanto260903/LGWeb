@@ -1,0 +1,777 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.about-container-img {
+  position: relative;
+  overflow: hidden; // Đảm bảo không có phần thừa của ảnh
+
+  .image-overlay {
+    position: relative;
+  }
+
+  .background-image {
+    width: 100%; // Ảnh tràn chiều rộng
+    height: auto; // Giữ tỷ lệ ảnh
+  }
+
+  // Lớp phủ bán trong suốt trên ảnh nền
+  &::before {
+    // Sử dụng &::before thay vì .about-container-img::before
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(12, 13, 14, 0.6); // Màu overlay bán trong suốt
+    z-index: 1;
+  }
+
+  .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: center;
+    z-index: 2; // Đảm bảo chữ nằm trên lớp phủ
+  }
+}
+
+.about-section {
+  text-align: center;
+  padding-bottom: 80px;
+}
+
+.about-partner {
+  background-color: #F7F7F7;
+  border: 1px solid #DBDBDB;
+  padding: 32px;
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+
+  p {
+    text-align: left;
+  }
+
+  .partner-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 45%;
+  }
+
+  .about-partner-image {
+    width: 50%;
+    margin: auto !important;
+  }
+
+  .partner-title {
+    margin-bottom: 36px;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; // Adjust distance from the text as needed
+      left: 0;
+      width: 100px;
+      height: 4px;
+      background-color: currentColor; // Matches the color of the text
+      border-radius: 60px 0 0 0;
+    }
+
+  }
+
+  .partner-description {
+    align-items: flex-start;
+    color: #555;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}
+
+.about-values {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  margin-top: 30px;
+
+  .value-box {
+    background-color: #F7F7F7;
+    border: 1px solid #DBDBDB;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: left;
+    h3 {
+      margin-bottom: 36px;
+    }
+
+    p {
+      color: #666;
+    }
+
+    .value-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 15px;
+    }
+
+    &.value-icon {
+        background-color: #f44336;
+        mask: url('/app/images/lightbulb.png') no-repeat center;
+        mask-size: contain;
+      }
+    .value-title {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -8px; // Adjust distance from the text as needed
+        left: 0;
+        width: 100px;
+        height: 4px;
+        background-color: currentColor; // Matches the color of the text
+        border-radius: 60px 0 0 0;
+      }
+    }
+  }
+}
+
+// Strategic Approaches Section
+.strategic-approaches-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #F0F3F6;
+  width: 100%;
+
+  .approach-container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    gap: 130px;
+  }
+
+  .approach-title {
+    text-align: left;
+    margin-bottom: 0px;
+  }
+
+  .approach-image {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+  }
+
+  .approach-details {
+    width: 45%;
+
+    .text-strateic {
+      width: 100%;
+    }
+
+    .icon-image img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .approach-item {
+      display: flex;
+      flex-direction: row;
+      padding-top: 20px;
+      gap: 12px;
+
+      h2 {
+        display: flex;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+        color: #0C0D0E;
+        padding-bottom: 12px;
+      }
+    }
+  }
+}
+
+
+// CEO Section
+.ceo-section {
+  padding: 80px 0;
+  background-color: #ffffff;
+
+  .ceo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+
+    .ceo-image {
+      margin-bottom: 20px;
+
+      .image {
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    .ceo-title {
+      color: #515961;
+      padding-top: 8px;
+    }
+
+    .ceo-description {
+      padding-top: 32px;
+
+    }
+
+    .ceo-quote {
+      font-style: italic;
+      margin-top: 30px;
+      font-weight: 600;
+
+    }
+  }
+}
+
+.approach-item img {
+  margin-right: 5px;
+}
+
+.team-content {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+
+
+
+.team-slider {
+  padding: 0px 0px 80px 0px;
+  background-color: #f3f4f6;
+
+  .team-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .team-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 80px;
+
+    .team-text {
+      width: 50%;
+      text-align: left;
+
+      h3 {
+        margin-bottom: 15px;
+      }
+
+      p {
+        margin-bottom: 20px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 10px;
+          display: flex;
+
+          img {
+            padding-top: 3px;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+    .team-image {
+      width: 40%;
+      text-align: center;
+
+      img {
+        max-width: 100%;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.tab {
+  display: none;
+}
+
+.ceo-details {
+  position: relative; // Đặt làm khung tham chiếu cho các phần tử con
+  overflow: hidden; // Đảm bảo các phần tử không tràn ra ngoài khối
+  padding-bottom: 15px;
+
+  .double-flash-top {
+    position: absolute;
+    top: 0; // Sát phía trên
+    left: 0; // Sát bên trái
+    z-index: 10;
+    transform: translate(10px, 40px);
+
+    /* Dịch chuyển theo tọa độ x và y */
+    img {
+      max-width: 60px;
+      height: auto;
+    }
+  }
+
+  .double-flash-bot {
+    position: absolute;
+    bottom: 0; // Sát phía dưới
+    right: 0; // Sát bên phải
+    z-index: 10;
+    transform: translate(-260px, 0px);
+    /* Dịch chuyển theo tọa độ x và y */
+
+    img {
+      max-width: 60px;
+      height: auto;
+    }
+  }
+}
+
+
+
+@media (max-width:1199px) {
+  /*Bắt đầu từ 992 tính tương ứng với trường hợp tablet quay ngang - thường là 3 hoặc 4 cột*/
+  .team-slider{
+    padding-bottom: 40px !important;
+  }
+  .ceo-section{
+    padding: 40px 0px !important;
+  }
+
+  .about-values{
+    flex-direction: column !important;
+  }
+
+  .approach-container{
+    padding: 40px 0px !important;
+  }
+  .team-info {
+    display: flex;
+    flex-direction: column !important;
+    margin-bottom: 0px !important;
+    padding-bottom: 0px !important;
+  }
+  /*Với làm responsive sẽ để width theo % nên để các khối về box-sizing:border-box*/
+  .about-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .strategic-approaches-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .ceo-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .team-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .approach-container {
+    gap: 70px !important;
+  }
+
+  .double-flash-bot {
+    transform: translate(-40px, -10px) !important;
+  }
+
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+  .team-text {
+    width: 100% !important;
+  }
+  .team-image {
+    margin-top: 50px;
+    width: 100% !important;
+  }
+
+  .team-image img {
+    width: 100%;
+  }
+
+  .tab {
+    display: block;
+  }
+  
+  .swiper-pagination {
+    display: none;
+  }
+  
+  .tab {
+    margin-bottom: 32px;
+    display: flex;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 10px;
+    justify-content: space-around;
+    .tabItem {
+      display: inline-block;
+      padding: 10px 10px;
+      cursor: pointer;
+      position: relative;
+      color: #000;
+      transition: color 0.3s;
+  
+      // Pseudo-element for the underline
+      &::after {
+        content: '';
+        display: block;
+        height: 3px;
+        background-color: green;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+  
+      &.active {
+        color: green;
+  
+        &::after {
+          transform: scaleX(1);
+        }
+      }
+  
+      &:hover {
+        color: green;
+      }
+    }
+  }
+
+  .about-partner{
+    gap: 45px;
+  }
+}
+
+@media (max-width:991px) {
+
+  /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+  .about-section {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .overlay-text {
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    line-height: 40px !important;
+  }
+
+  .ceo-details {
+
+    .double-flash-top {
+      display: none;
+    }
+
+    .double-flash-bot {
+      transform: translate(-40px, -10px);
+      opacity: 1;
+
+      img {
+        max-width: 40px !important;
+      }
+    }
+  }
+
+  .approach-container {
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 0 0px;
+  }
+
+  .approach-details {
+    width: 100% !important;
+  }
+
+  .about-partner .partner-title {
+    text-align: left;
+  }
+
+  .about-partner .partner-title::after {
+    top: 30px;
+  }
+
+  .approach-details {
+    width: 100%;
+  }
+}
+
+@media (max-width:767px) {
+  .about-section {
+    margin-bottom: 0px !important;
+  }
+
+  .overlay-text {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    line-height: 32px !important;
+  }
+
+  .strategic-approaches-section {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0px;
+  }
+
+  .approach-title {
+    padding-top: 20px !important;
+  }
+
+  .team-info {
+    display: flex;
+    flex-direction: column !important;
+    margin-bottom: 0px !important;
+  }
+
+  .team-text {
+    width: 100% !important;
+  }
+
+  .team-title {
+    margin-bottom: 24px !important;
+  }
+
+  .team-image {
+    margin-top: 50px;
+    width: 100% !important;
+  }
+
+  .team-image img {
+    width: 100%;
+  }
+
+  .tl {
+    margin-bottom: 8px !important;
+  }
+
+  .button-container {
+    padding-bottom: 40px !important;
+  }
+
+  .approach-container {
+    flex-direction: column;
+    padding-bottom: 40px;
+  }
+
+  .about-partner .partner-title::after {
+    top: 32px;
+  }
+
+  .about-values .value-box .value-title::after {
+    top: 32px;
+  }
+
+
+  .approach-details {
+    padding-left: 0;
+  }
+
+
+  .approach-item p {
+    text-align: start !important;
+  }
+
+
+  .ceo-description {
+    text-align: justify;
+  }
+
+  .about-partner {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    .about-partner-image {
+      width: 100%;
+      margin: auto;
+    }
+
+    .partner-details {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .value-box {
+      width: 100%;
+      /* Make each box full-width */
+    }
+
+  }
+
+  .about-values {
+    flex-direction: column;
+
+    .about-partner-image {
+      width: 100%;
+    }
+
+    .partner-details {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .value-box {
+      width: 100%;
+      /* Make each box full-width */
+    }
+  }
+
+  .approach-image img {
+    width: 100%;
+  }
+
+  .strategic-approaches-section .approach-details {
+    width: 100%;
+  }
+
+  .tab {
+    display: block;
+  }
+
+  .swiper-pagination {
+    display: none;
+  }
+
+  .tab {
+    margin-bottom: 32px;
+    display: flex;
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 10px;
+
+    .tabItem {
+      display: inline-block;
+      padding: 10px 10px;
+      cursor: pointer;
+      position: relative;
+      color: #000;
+      transition: color 0.3s;
+
+      // Pseudo-element for the underline
+      &::after {
+        content: '';
+        display: block;
+        height: 3px;
+        background-color: green;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        transform: scaleX(0);
+        transition: transform 0.3s;
+      }
+
+      &.active {
+        color: green;
+
+        &::after {
+          transform: scaleX(1);
+        }
+      }
+
+      &:hover {
+        color: green;
+      }
+    }
+  }
+
+  .team-slider {
+    padding-bottom: 40px !important;
+    padding-top: 0px !important;
+  }
+.team-content{
+  padding-bottom: 40px;
+}
+  .small-title {
+    padding-top: 40px !important;
+  }
+
+  .t1 {
+    padding-top: 40px !important;
+  }
+
+  .ceo-section {
+    padding-bottom: 40px !important;
+    padding-top: 40px !important;
+  }
+
+  .team-slider {
+    padding-bottom: 0px !important;
+  }
+
+  .ceo-details {
+
+    .double-flash-top {
+      display: none;
+    }
+
+    .double-flash-bot {
+      transform: translate(-100px, -10px);
+      opacity: 1;
+
+      img {
+        max-width: 30px !important;
+      }
+    }
+  }
+}
+
+@media (max-width:479px) {
+  .about-values {
+    .value-box {
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .about-partner {
+    flex-direction: column;
+
+    .partner-details {
+      margin-top: 10px;
+    }
+  }
+
+  .about-partner {
+    padding: 20px;
+  }
+}

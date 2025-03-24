@@ -1,0 +1,176 @@
+﻿@model Domain.Models.BlogCategoryModel
+@using Domain.Entities
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Create Blog Category";
+    var categorys = (List<Category>)ViewBag.Categories;
+    var blogcategorys = (List<BlogsCategory>)ViewBag.BlogsCategory;
+}
+<h1>Create Blog Category</h1>
+<form novalidate action="/BlogsCategory/create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" class="form-control">
+            <option value="">-- Select Category --</option>
+            @foreach (var categoryitem in categorys)
+            {
+                <option value="@categoryitem.Id">@categoryitem.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Position">Position</label>
+        <select asp-for="Position" class="form-control">
+            <option value="">-- Select Position --</option>
+            @foreach (var position in Position.GetListPosition())
+            {
+                <option value="@position">@position</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <!-- Image file input -->
+    <div class="col-md-6 position-relative">
+        <label asp-for="ImageFile" class="form-label" for="validationTooltip03">Chọn ảnh</label>
+        <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/*" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+
+    <!-- Preview selected image and thumbnail -->
+    <div style="margin-bottom: 10px;">
+        <label class="form-label">Ảnh đã chọn:</label>
+        <div id="imagePreview" style="display: flex; gap: 10px;">
+            <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 400px; height: auto; display: none;" />
+            <img id="thumbnailImage" src="#" alt="Thumbnail" style="max-height: 100px; width: auto; display: none;" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea name="Description" id="descriptionEditor" rows="5" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Detail"></label>
+        <textarea name="Detail" id="detailEditor" rows="5" class="form-control"></textarea>
+        <span asp-validation-for="Detail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Styles"></label>
+        <input asp-for="Styles" class="form-control" type="number" />
+        <span asp-validation-for="Styles" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Order"></label>
+        <input asp-for="Order" class="form-control" type="number" />
+        <span asp-validation-for="Styles" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Color"></label>
+        <textarea name="Color" rows="5" class="form-control"></textarea>
+        <span asp-validation-for="Color" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Features">Features</label>
+        <div id="featuresContainer">
+            <input name="Features" class="form-control" placeholder="Enter feature" />
+        </div>
+        <button type="button" id="addFeatureBtn" class="btn btn-secondary mt-2">Add Feature</button>
+    </div>
+    <div class="form-group">
+        <label asp-for="Videos[0].LinkUrl">Video</label>
+        <div id="videosContainer">
+            <input name="Videos[0].LinkUrl" class="form-control" placeholder="Enter Video" />
+            <input name="Videos[0].Description" class="form-control" placeholder="Enter Des" />
+        </div>
+        <button type="button" id="addVideoBtn" class="btn btn-secondary mt-2">Add Video</button>
+    </div> 
+    <input type="hidden" name="FeaturesCombined" id="featuresCombined" />
+    <button type="submit" class="btn btn-primary" onclick="combineInputs()">Submit</button>
+</form>
+<script>
+    document.getElementById('addFeatureBtn').addEventListener('click', function () {
+        // Tạo một input mới cho feature
+        const featureInput = document.createElement('input');
+        featureInput.name = "Features"; // Tên này sẽ gửi danh sách các features
+        featureInput.className = "form-control mt-2"; // Định dạng input
+        featureInput.placeholder = "Enter another feature";
+
+        // Thêm input vào container
+        document.getElementById('featuresContainer').appendChild(featureInput);
+    });
+    // Hàm kết hợp chuỗi trước khi submit form
+    function combineInputs() {
+        // Lấy tất cả các giá trị từ Features
+        const featureInputs = document.querySelectorAll('input[name="Features"]');
+        const featuresCombined = Array.from(featureInputs)
+            .map(input => input.value.trim())
+            .filter(value => value !== "")
+            .join('|'); // Kết hợp bằng ký tự "|"
+
+
+        // Gán giá trị kết hợp vào các input ẩn
+        document.getElementById('featuresCombined').value = featuresCombined;
+    }
+</script>
+<script>
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var selectedImage = document.getElementById("selectedImage");
+            selectedImage.src = reader.result;
+            selectedImage.style.display = "block";
+
+            // Generate and show thumbnail
+            var thumbnailCanvas = document.createElement('canvas');
+            var thumbnailContext = thumbnailCanvas.getContext('2d');
+            var img = new Image();
+            img.src = reader.result;
+            img.onload = function () {
+                thumbnailCanvas.width = 100; // Set thumbnail width
+                thumbnailCanvas.height = 100; // Set thumbnail height
+                thumbnailContext.drawImage(img, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                var thumbnailImage = document.getElementById("thumbnailImage");
+                thumbnailImage.src = thumbnailCanvas.toDataURL(); // Create thumbnail
+                thumbnailImage.style.display = "block"; // Show thumbnail
+            };
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    CKEDITOR.replace('detailEditor', {
+        // Cấu hình paste
+        pasteFilter: 'keep', // Giữ nguyên định dạng
+        pasteFromWordPromptCleanup: true,
+        pasteFromWordRemoveFontStyles: false,  // Giữ nguyên các lớp font
+        pasteFromWordRemoveStyles: false,      // Giữ nguyên các lớp CSS
+        pasteFromWordKeepAll: true,           // Giữ tất cả các định dạng
+        // Các cài đặt khác...
+        allowedContent: true, // Cho phép tất cả các thẻ HTML và thuộc tính của chúng
+    });
+</script>
+<script>
+    let videoIndex = 1;
+
+    // Hàm để thêm video mới vào form
+    function addVideoInput() {
+        const container = document.getElementById('videosContainer');
+        const videoInput = `
+            <div class="video-input-group mt-2">
+                <input name="Videos[${videoIndex}].LinkUrl" class="form-control" placeholder="Enter Video URL" />
+                <input name="Videos[${videoIndex}].VideoDescription" class="form-control mt-2" placeholder="Enter Video Description" />
+            </div>`;
+        container.insertAdjacentHTML('beforeend', videoInput);
+        videoIndex++;
+    }
+
+    // Gắn sự kiện click vào nút Add Video
+    document.getElementById('addVideoBtn').addEventListener('click', addVideoInput);
+</script>

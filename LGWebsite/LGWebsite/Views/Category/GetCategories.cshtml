@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Home / Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<Domain.Entities.Category>
+
+<h1>Categorys</h1>
+<!-- Modal để hiển thị ảnh gốc -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>
+    <a href="@Url.Action("Add")" class="btn btn-success">
+        <span class="cil-contrast"></span> Create New
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ImageUrl</th>
+            @if (User.IsInRole("0"))
+            {
+                <th>Deleted</th>
+            }
+            <th>Date Created</th>
+            <th>Date Modified</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var config in Model)
+        {
+            <tr>
+                <td>@config.Name</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(config.ImageUrl))
+                    {
+                        <a href="javascript:void(0);" onclick="showImage('@Url.Content(config.ImageUrl)')">
+                            <img src="@Url.Content(config.ImageUrl)" alt="Image" style="height: 100px; width: 100px;"
+                                 onerror="this.onerror=null; this.src='@Url.Content("~/picture/NoImage.png")'; this.alt='No Image';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <img src="~/picture/NoImage.png" alt="No Image" style="max-height: 120px; max-width: 100px;" />
+                    }
+                </td>
+                @if (User.IsInRole("0"))
+                {
+                <td>
+                   
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" data-Category-id="@config.Id"
+                               id="flexSwitchCheckDefaultXl_@config.Id"
+                        @(config.IsDeleted ?? false ? "checked" : "")
+                               onclick="toggleCategoryStatus(@config.Id, this.checked, this)" />
+
+                    </div>
+
+                    <label class="form-check-label"
+                           for="flexSwitchCheckDefaultXl_@config.Id"
+                           id="label_@config.Id">
+                    </label>
+                </td>
+                }
+
+                <td>@config.DateCreated?.ToString("g") </td> <!-- Handle null -->
+                <td>@config.DateModified?.ToString("g") </td> <!-- Handle null -->
+                <td>
+                    <a class="btn btn-primary btn-sm" href="/Category/Edit/@config.Id">Sửa</a>
+
+
+                    <button class="btn btn-danger btn-sm" onclick="Delete(@config.Id)">Xóa</button>
+                    <form id="@config.Id" action="/Category/Delete" method="post" style="display:none;">
+                        <input type="hidden" name="id" value="@config.Id" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        function showImage(imageUrl) {
+            var mainImage = document.getElementById("mainImage");
+            mainImage.src = imageUrl;
+            $('#imageModal').modal('show');
+        }
+
+
+        function toggleCategoryStatus(CategoryId, isChecked, checkbox) {
+            $.ajax({
+                url: '/Category/UpdateCategoryStatus',
+                type: 'POST',
+                data: {
+                    id: CategoryId,
+                    IsDeleted: isChecked
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Cập nhật nội dung của label tương ứng
+                        var label = document.getElementById("label_" + CategoryId);
+                        alert("Status updated successfully!");
+                    } else {
+                        alert("Failed to update status.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred.");
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+                // Tìm phần tử form theo ID
+                var form = document.getElementById(id);
+                if (form) {
+                    // Nếu form tồn tại, thực hiện xóa
+                    form.submit();
+                } else {
+                    console.error('Form not found for ID:', id);
+                }
+            }
+        }
+
+    </script>
+}

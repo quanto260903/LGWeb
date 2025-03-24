@@ -1,49 +1,87 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using LGWebsite.Services
+@inject ISystemConfigService SystemConfigService
+@{
+    var themeMode = await SystemConfigService.GetThemeModeAsync(); // Get the current theme mode from the database
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var themeMode = '@themeMode'; // Get the theme mode from the server-side
+
+        // Automatically apply dark mode if themeMode is "dark"
+        if (themeMode === "dark") {
+            document.documentElement.setAttribute('data-coreui-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-coreui-theme', 'light');
+        }
+    });
+</script>
+<!DOCTYPE html>
+<html lang="en" data-coreui-theme="@themeMode">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LGWebsite</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/LGWebsite.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Contoso University</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+
+    <!-- Vendors styles-->
+    <link rel="stylesheet" href="~/css/vendors/simplebar.css">
+    <!-- Main styles for this application-->
+    <link href="~/css/style.css" rel="stylesheet">
+    <!-- We use those styles to show code examples, you should remove them in your application.-->
+    <link href="~/css/examples.css" rel="stylesheet">
+    <script src="~/js/config.js"></script>
+    <script src="~/js/color-modes.js"></script>
+    <link href="~/css/coreui-chartjs.css" rel="stylesheet" />
+    <link href="~/nodemodule/simplebar/dist/simplebar.min.css" rel="stylesheet" />
+    <script src="https://cdn.ckeditor.com/4.17.1/standard/ckeditor.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LGWebsite</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+    <!-- Side bar left -->
+    @{
+        await Html.RenderPartialAsync("~/Views/Partial/_Menu.cshtml");
+    }
+    <!-- wrapper content -->
+    <div class="wrapper d-flex flex-column min-vh-100">
+        <!-- header content -->
+        @{
+            await Html.RenderPartialAsync("~/Views/Partial/_Header.cshtml");
+        }
+        <div class="body flex-grow-1">
+            <div class="container-lg px-4">
+                <div class="row mb-4">
+                    @RenderBody()
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+
+        @{
+            await Html.RenderPartialAsync("~/Views/Partial/_Footer.cshtml");
+        }
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - LGWebsite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- CoreUI and necessary plugins-->
+    <script src="~/js/coreui.bundle.min.js"></script>
+    <script src="~/js/simplebar.min.js"></script>
+    <!-- Plugins and scripts required by this view-->
+    <script src="~/js/chart.umd.js"></script>
+    <script src="~/js/coreui-chartjs.js"></script>
+    <script src="~/js/index.js"></script>
+    <script src="~/js/main.js"></script>
+
+
+
+
 </body>
 </html>

@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.EFCore.Repositories
 {
-    public class ConfigurationRepository : GenericRepository<Configuration>, IConfigurationRepository
+    public class ConfigurationRepository : GenericRepository<WebConfiguration>, IConfigurationRepository
     {
-        private readonly AodwebsiteContext _context;
-        public ConfigurationRepository(AodwebsiteContext context) : base(context)
+        private readonly LgwebsiteContext _context;
+        public ConfigurationRepository(LgwebsiteContext context) : base(context)
         {
             _context = context;
         }
-        public async Task<IEnumerable<Configuration>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize)
+        public async Task<IEnumerable<WebConfiguration>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize)
         {
-            var query = _context.Configurations.AsQueryable();
+            var query = _context.WebConfigurations.AsQueryable();
 
             // Lọc theo searchString
             if (!string.IsNullOrEmpty(searchString))
@@ -41,9 +41,9 @@ namespace DataAccess.EFCore.Repositories
             // Phân trang
             return await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
-        public async Task<Configuration> FirstOrDefaultAsync(string configKey)
+        public async Task<WebConfiguration> FirstOrDefaultAsync(string configKey)
         {
-            return await _context.Configurations
+            return await _context.WebConfigurations
                                  .FirstOrDefaultAsync(c => c.ConfigKey == configKey);
         }
     }

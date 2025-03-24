@@ -1,0 +1,83 @@
+﻿@model Domain.Entities.Slide
+
+
+@{
+    ViewData["Title"] = "Slide / Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card-body">
+    <div class="example">
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+                <form class ="row g-3 needs-validation" action="/Slide/create" method="post" enctype="multipart/form-data">
+
+                    <div class="col-md-4 position-relative">
+                        <label for="validationTooltip01" class="form-label">Thêm Url</label>
+                        <input type="text" class="form-control" id="validationTooltip01" asp-for="Url" required>
+                    </div>
+
+                    <!-- Image file input -->
+                    <div class="col-md-6 position-relative">
+                        <label asp-for="ImageFile" class="form-label" for="validationTooltip03">Chọn ảnh</label>
+                        <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/*" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <!-- Preview selected image and thumbnail -->
+                    <div style="margin-bottom: 10px;">
+                        <label class="form-label">Ảnh đã chọn:</label>
+                        <div id="imagePreview" style="display: flex; gap: 10px;">
+                            <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 400px; height: auto; display: none;" />
+                            <img id="thumbnailImage" src="#" alt="Thumbnail" style="max-height: 100px; width: auto; display: none;" />
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch">
+                        <label class="form-label" for="flexSwitchCheckDefault">Chọn IsEnabled</label>
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                               name="IsEnabled" value="true" @(Model.IsEnabled == true ? "checked" : "") />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Preview selected image and thumbnail
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var selectedImage = document.getElementById("selectedImage");
+            selectedImage.src = reader.result;
+            selectedImage.style.display = "block";
+
+            // Generate and show thumbnail
+            var thumbnailCanvas = document.createElement('canvas');
+            var thumbnailContext = thumbnailCanvas.getContext('2d');
+            var img = new Image();
+            img.src = reader.result;
+            img.onload = function () {
+                thumbnailCanvas.width = 100; // Set thumbnail width
+                thumbnailCanvas.height = 100; // Set thumbnail height
+                thumbnailContext.drawImage(img, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                var thumbnailImage = document.getElementById("thumbnailImage");
+                thumbnailImage.src = thumbnailCanvas.toDataURL(); // Create thumbnail
+                thumbnailImage.style.display = "block"; // Show thumbnail
+            };
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
+
+
+
+

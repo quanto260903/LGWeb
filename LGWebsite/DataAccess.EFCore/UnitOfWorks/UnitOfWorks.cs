@@ -6,11 +6,10 @@ namespace DataAccess.EFCore.UnitOfWorks
 {
     public class UnitOfWorks : IUnitOfWork
     {
-        private readonly AodwebsiteContext _context;
+        private readonly LgwebsiteContext _context;
         public IConfigurationRepository Configuration { get; private set; }
         public ISlideRepository Slide { get; private set; }
         public ICategoryRepository Category { get; private set; }
-        public IPartnerRepository Partner { get; private set; }
         public IContactRepository Contact { get; private set; }
         public IMenuRepository Menu { get; private set; }
         public IUserRepository User { get; private set; }
@@ -19,13 +18,12 @@ namespace DataAccess.EFCore.UnitOfWorks
 
         public IVideoRepository Video { get; private set; }
 
-        public UnitOfWorks(AodwebsiteContext context)
+        public UnitOfWorks(LgwebsiteContext context)
         {
             _context = context;
             Configuration = new ConfigurationRepository(_context);
             Slide = new SlideRepository(_context);
             Category = new CategoryRepository(_context);
-            Partner = new PartnerRepository(_context);
             Contact = new ContactRepository(_context);
             Menu = new MenuRepository(_context);
             User = new UserRepository(_context);

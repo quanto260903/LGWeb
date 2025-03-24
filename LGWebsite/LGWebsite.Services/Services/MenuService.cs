@@ -1,4 +1,4 @@
-﻿using AODWebsite.Services.IService;
+﻿using LGWebsite.Services.IService;
 using DataAccess.EFCore.Repositories;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AODWebsite.Services.Services
+namespace LGWebsite.Services.Services
 {
     public class MenuService : IMenuService
     {

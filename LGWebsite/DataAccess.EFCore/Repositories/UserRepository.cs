@@ -6,7 +6,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(AodwebsiteContext context) : base(context)
+        public UserRepository(LgwebsiteContext context) : base(context)
         {
         }
         public async Task<IEnumerable<User>> GetUserAsync(string sortOrder, string searchString, int pageNumber, int pageSize)

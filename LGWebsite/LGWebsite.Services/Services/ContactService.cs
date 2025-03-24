@@ -2,7 +2,7 @@
 using Domain.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class ContactService : IContactService
     {

@@ -11,8 +11,8 @@ namespace DataAccess.EFCore.Repositories
 {
     public class BlogsCategoryRepository : GenericRepository<BlogsCategory>, IBlogsCategoryRepository
     {
-        private readonly AodwebsiteContext _context;
-        public BlogsCategoryRepository(AodwebsiteContext context) : base(context)
+        private readonly LgwebsiteContext _context;
+        public BlogsCategoryRepository(LgwebsiteContext context) : base(context)
         {
             _context = context;
         }

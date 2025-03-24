@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface ISystemConfigRepository : IGenericRepository<SystemConFig>
+    public interface ISystemConfigRepository : IGenericRepository<SystemConfiguration>
     {
-        Task<IEnumerable<SystemConFig>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize);
-        Task<SystemConFig> FirstOrDefaultAsync(string configKey);
+        Task<IEnumerable<SystemConfiguration>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize);
+        Task<SystemConfiguration> FirstOrDefaultAsync(string configKey);
     }
 }

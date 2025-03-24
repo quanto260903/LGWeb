@@ -10,7 +10,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        public CategoryRepository(AodwebsiteContext context) : base(context)
+        public CategoryRepository(LgwebsiteContext context) : base(context)
         {
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public interface ISlideService
     {

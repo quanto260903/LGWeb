@@ -5,7 +5,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class SlideRepository : GenericRepository<Slide>, ISlideRepository
     {
-        public SlideRepository(AodwebsiteContext context) : base(context)
+        public SlideRepository(LgwebsiteContext context) : base(context)
         {
         }
 

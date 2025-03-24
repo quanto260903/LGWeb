@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "Slide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using Domain.Entities
+
+@{
+    var slides = ViewBag.Slides as List<Slide>;
+}
+<h2>Slide</h2>
+
+<!-- Modal để hiển thị ảnh gốc -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tab-content rounded-bottom">
+    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1009">
+        <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px; display: none; margin: 20px auto;">
+        <a style="margin-bottom:5px" class="btn btn-ghost-success active" href="/Slide/create">Thêm mới</a>
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">ImageUrl</th>
+                    <th scope="col">Url</th>
+                    <th scope="col">Enabled</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (slides?.Any() ?? false) // Updated line
+                {
+                    foreach (var slide in slides)
+                    {
+                        <tr>
+                            <td>@slide.Id</td>
+                            <td>
+
+                                @if (!string.IsNullOrEmpty(slide.ImageUrl))
+                                {
+                                    <a href="javascript:void(0);" onclick="showImage('@Url.Content(slide.ImageUrl)')">
+                                        <img src="@Url.Content(slide.ImageUrl)" alt="Image" style="height: 100px; width: 100px;"
+                                             onerror="this.onerror=null; this.src='@Url.Content("~/picture/NoImage.png")'; this.alt='No Image';" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <img src="~/picture/NoImage.png" alt="No Image" style="max-height: 100px; max-width: 100px;" />
+                                }
+                            </td>
+                            <td>@slide.Url</td>
+
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" data-slide-id="@slide.Id"
+                                           id="flexSwitchCheckDefaultXl_@slide.Id"
+                                    @(slide.IsEnabled ?? false ? "checked" : "")
+                                           onclick="toggleSlideStatus(@slide.Id, this.checked, this)" />
+                                </div>
+                                <label class="form-check-label"
+                                       for="flexSwitchCheckDefaultXl_@slide.Id"
+                                       id="label_@slide.Id">
+                                </label>
+                            </td>
+
+                            <td>
+                                <!-- Edit Button -->
+                                <a class="btn btn-primary btn-sm" href="/Slide/Edit/@slide.Id">Sửa</a>
+                                <!-- Delete Button -->
+                                <button class="btn btn-danger btn-sm" onclick="Delete(@slide.Id)">Xóa</button>
+                                <form id="@slide.Id" action="/Slide/Delete" method="post" style="display:none;">
+                                    <input type="hidden" name="id" value="@slide.Id" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No slides available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showImage(imageUrl) {
+            var mainImage = document.getElementById("mainImage");
+            mainImage.src = imageUrl;
+            $('#imageModal').modal('show');
+        }
+        function toggleSlideStatus(slideId, isChecked, checkbox) {
+            $.ajax({
+                url: '/Slide/UpdateSlideStatus',
+                type: 'POST',
+                data: {
+                    id: slideId,
+                    isEnabled: isChecked
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Cập nhật nội dung của label tương ứng
+                        var label = document.getElementById("label_" + slideId);
+                        alert("Status updated successfully!");
+                    } else {
+                        alert("Failed to update status.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred.");
+                }
+            });
+        }
+        function Delete(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+                // Tìm phần tử form theo ID
+                var form = document.getElementById(id);
+                if (form) {
+                    // Nếu form tồn tại, thực hiện xóa
+                    form.submit();
+                } else {
+                    console.error('Form not found for ID:', id);
+                }
+            }
+        }
+    </script>
+}
+
+
+

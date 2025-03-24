@@ -10,7 +10,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class ContactRepository : GenericRepository<Contact>, IContactRepository
     {
-        public ContactRepository(AodwebsiteContext context) : base(context)
+        public ContactRepository(LgwebsiteContext context) : base(context)
         {
         }
 

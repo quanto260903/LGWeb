@@ -1,0 +1,269 @@
+$font-title-small: 16px;
+$font-size-small: 14px;
+.method-header{
+  position: relative;
+  overflow: hidden; // Đảm bảo không có phần thừa của ảnh
+
+  .image-overlay {
+    position: relative;
+  }
+
+  .background-image {
+    width: 100%; // Ảnh tràn chiều rộng
+    height: auto; // Giữ tỷ lệ ảnh
+  }
+
+  // Lớp phủ bán trong suốt trên ảnh nền
+  &::before {
+    // Sử dụng &::before thay vì .about-container-img::before
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(12, 13, 14, 0.6); // Màu overlay bán trong suốt
+    z-index: 1;
+  }
+
+  .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: center;
+    z-index: 2; // Đảm bảo chữ nằm trên lớp phủ
+  }
+}
+.method-page {
+  font-family: Arial, sans-serif;
+  text-align: center;
+
+  .agile-container {
+    margin: 0 auto;
+
+    .agile-model {
+      display: flex;
+      margin-bottom: 80px;
+    }
+
+    .content-left {
+      flex: 1;
+      padding-right: 50px;
+
+      .accordion {
+        .accordion-item {
+          margin-bottom: 10px;
+
+          button {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+            font-size: 16px;
+            align-items: center;
+            border-bottom: 1px solid #BEBEBE;
+
+            &.activeAcc {
+              border-bottom: none;
+            }
+          }
+
+          .accordion-content {
+            width: 100%;
+            padding: 10px;
+            border-bottom: 1px solid #BEBEBE;
+            animation: fadeIn 0.3s ease-in-out;
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    .content-right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
+.extra-class{
+  margin-bottom: 68px;
+}
+.tool-card{
+  .image-tool {
+    width: 78px;
+    height: 80px;
+  }
+}
+.applied-tools-section {
+
+  background-color: #f0f3f6;
+
+  .tools-grid {
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 80px;
+.button-container{
+  text-align: center;
+  grid-column: span 2;
+}
+    .tool-card {
+      width: 100%;
+      height: auto;
+      background-color: #f7f7f7;
+      border: 1px solid #ddd; 
+      border-radius: 8px;
+      padding: 32px;
+      gap: 16px;
+      display: flex;
+
+      .tool-card-text {
+        display: flex;
+        flex-direction: column;
+      }
+      .tl4{
+        color: #242424;
+        margin-top: 16px;
+      }
+     
+    }
+  }
+}
+.tool-background {
+  background-color: transparent;
+}
+.dropdown-icon {
+  display: none;
+}
+@media (max-width:1199px){
+  /*Bắt đầu từ 992 tính tương ứng với trường hợp tablet quay ngang - thường là 3 hoặc 4 cột*/
+
+  /*Với làm responsive sẽ để width theo % nên để các khối về box-sizing:border-box*/
+
+  
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+
+@media (max-width:991px){
+  /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+@media (max-width:767px){
+  /*Bắt đầu từ 480 tính tương ứng với trường hợp mobile quay ngang - thường là 2 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+ 
+  .method-page.homepage-style {
+  .applied-tools-section {
+    .tool-card{
+      background: none !important;
+       position: relative;
+       
+      &::after {
+        content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5%; /* Center the 90% width border */
+  width: 90%; /* Set the border's width to 90% */
+  border-bottom: 1px solid #BEBEBE;
+      }
+      .img-tool{
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+    
+      p{
+        display: none;
+        width: 80%;
+      }
+      &.expanded {
+        p {
+          display: block; // Hiển thị mô tả khi bấm vào mũi tên
+        }
+    }
+  }
+      }
+  }
+  .tool-card-text .tl5 {
+    display: flex;
+    align-items: center; /* Center-aligns text and image vertically */
+    justify-content: space-between; /* Positions text on the left and image on the right */
+    width: 100%; /* Ensures it spans the entire container */
+ 
+  }
+  .dropdown-icon {
+    position: absolute;
+    right: 50px; /* Cách sát cạnh phải của tool-card */
+    transform: translateY(-50%); /* Điều chỉnh icon nằm giữa */
+    display: inline-block;
+    margin-top: 10px !important;
+  }
+  .button-container{
+    text-align: center;
+    grid-column: span 1 !important;
+  }
+    
+  .agile-container {
+    padding: 20px;
+  }
+
+  .agile-model {
+    flex-direction: column-reverse !important;
+  }
+
+  .content-left,
+  .content-right {
+    padding-right: 0 !important;
+    width: 100%;
+  }
+  .tl5{
+    font-size: 16px !important;
+  }
+  .tl4{
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+  .tools-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    .tool-card {
+      background-color: #f0f3f6 !important;
+      border: none !important;
+      .image-tool{
+        width: 49.38px;
+      height: 50.64px;
+      margin-left: 9.5px;
+      margin-right: 0;
+      }
+    }
+  }
+  .section-title {
+    cursor: pointer;
+    font-weight: bold;
+    color: #00796b;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width:479px){
+  /*Bắt đầu từ mobile, tức css viết ngoài cùng là css cho trường hợp mobile dựng dọc - thường là 1 cột, padding left right 15px*/
+
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+}

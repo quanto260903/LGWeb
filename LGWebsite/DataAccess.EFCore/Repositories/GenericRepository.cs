@@ -12,10 +12,10 @@ namespace DataAccess.EFCore.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly AodwebsiteContext _context;
+        protected readonly LgwebsiteContext _context;
         protected readonly DbSet<T> _dbSet;
 
-        public GenericRepository(AodwebsiteContext context)
+        public GenericRepository(LgwebsiteContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

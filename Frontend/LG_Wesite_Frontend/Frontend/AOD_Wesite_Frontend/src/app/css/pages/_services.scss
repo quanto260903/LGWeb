@@ -1,0 +1,186 @@
+.service-header{
+  position: relative;
+  overflow: hidden; // Đảm bảo không có phần thừa của ảnh
+  .image-overlay {
+    position: relative;
+  }
+  .background-image {
+    width: 100%; // Ảnh tràn chiều rộng
+    height: auto; // Giữ tỷ lệ ảnh
+  }
+  // Lớp phủ bán trong suốt trên ảnh nền
+  &::before {
+    // Sử dụng &::before thay vì .about-container-img::before
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(12, 13, 14, 0.6); // Màu overlay bán trong suốt
+    z-index: 1;
+  }
+  .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: center;
+    z-index: 2; // Đảm bảo chữ nằm trên lớp phủ
+  }
+}
+.services-page {
+  .service-description{
+    P{
+      padding-top: 20px;
+    }
+    .expertise-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      margin-bottom: 50px;
+      .software-development {
+        flex: 1;
+      }
+    }
+    .support-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 80px;
+      text-align: left;
+      .support-text {
+        flex: 1;
+        order: 2;
+      }
+    }
+  }
+}
+.contact-support{
+  display: flex;
+  .contact-body{
+    margin-left: 32px;
+  }
+}
+.technologies-section {
+  padding: 80px 0;
+  text-align: center;
+  position: relative;
+  background-size: cover;
+  background-image: url('./../../images/backgroundservices.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #f0f3f6;
+  .technologies-grid {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 80px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(6, 1fr); // Đặt 6 cột cho lưới
+
+  span {
+    display: flex;
+    gap: 8px;
+    padding: 10px 20px;
+     align-items: center;
+     white-space: nowrap;
+     text-overflow: ellipsis;
+    }
+  }
+  span:nth-child(1) {
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-column: span 6; 
+  }
+  span:nth-child(2), span:nth-child(3), span:nth-child(7), span:nth-child(8), span:nth-child(12), span:nth-child(13) {
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-column: span 3; 
+  }
+   span:nth-child(4), span:nth-child(5), span:nth-child(6), span:nth-child(9), span:nth-child(10), span:nth-child(11) {
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-column: span 2; 
+    
+  } 
+}
+.home-background {
+  background-color: #f0f3f6;
+}
+@media (max-width:1199px){
+  /*Bắt đầu từ 992 tính tương ứng với trường hợp tablet quay ngang - thường là 3 hoặc 4 cột*/
+
+  /*Với làm responsive sẽ để width theo % nên để các khối về box-sizing:border-box*/
+
+  
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+
+@media (max-width:991px){
+  /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+@media (max-width:767px){
+  /*Bắt đầu từ 480 tính tương ứng với trường hợp mobile quay ngang - thường là 2 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+  .service-content{
+    padding: 20px;
+  }
+  .expertise-container, .support-section {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.software-image, .support-image {
+    margin-top: 20px;
+}
+.expertise-container{
+  flex-direction: column-reverse;
+}
+.contact-support{
+  display: block !important;
+  .contact-body{
+    margin-left: 0;
+  }
+}
+.technologies-grid {
+display: flex !important;
+margin-top: 50px;
+flex-direction: column;
+padding-left: 0 !important;
+gap: 0 !important;
+
+span {
+  width: 393px;
+  height: 28px;
+  justify-content: flex-start  !important; /* Căn sát lề trái */
+  flex-basis: 100%;
+  padding-left: 0 !important;
+  }
+  img{
+    width: 8.17px;
+    height: 15.17px;
+    top: 5.83px;
+    left: 10.5px;
+  }
+}
+.services-page .wrp{
+  width: 100%;
+}
+}
+
+@media (max-width:479px){
+  /*Bắt đầu từ mobile, tức css viết ngoài cùng là css cho trường hợp mobile dựng dọc - thường là 1 cột, padding left right 15px*/
+
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+}
+
+

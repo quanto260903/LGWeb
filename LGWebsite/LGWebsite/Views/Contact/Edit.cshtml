@@ -1,0 +1,42 @@
+﻿@model Domain.Entities.Contact
+
+@{
+    ViewData["Title"] = "Contact / Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit Contact</h2>
+
+
+<div class="card-body">
+    <div class="example">
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+                <form class="row g-3 needs-validation" action="/Contact/edit" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Sửa name</label>
+                        <textarea class="form-control" id="validationTextarea" placeholder="Name" required="" asp-for="Name"></textarea>
+                    </div>
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Sửa Email</label>
+                        <textarea class="form-control" id="validationTextarea" placeholder="Email" required="" asp-for="Email"></textarea>
+                    </div>
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Sửa Phone</label>
+                        <textarea class="form-control" id="validationTextarea" placeholder="Phone" required="" asp-for="Phone"></textarea>
+                    </div>
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Sửa Message</label>
+                        <textarea class="form-control" id="validationTextarea" placeholder="Message" required="" asp-for="Message"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

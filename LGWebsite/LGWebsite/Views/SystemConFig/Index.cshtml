@@ -1,0 +1,52 @@
+﻿@using Domain.Entities
+@model X.PagedList.IPagedList<Domain.Entities.SystemConfiguration>
+@{
+    ViewData["Title"] = "SystemConFig";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>System Configuration</h2>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+        @TempData.Remove("Message") // Clear TempData after showing the alert
+    </script>
+}
+@using (Html.BeginForm("GetConfigurations", "SystemConFig", FormMethod.Get, new { id = "searchForm" }))
+{
+
+    <p>
+        <div class="input-group mb-3">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Tìm kiếm theo key và value", aria_label = "Tìm kiếm theo tên" })
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm kiếm</button>
+        </div>
+    </p>
+}
+<div id="configList" class="tab-content rounded-bottom">
+    @await Html.PartialAsync("_ConfigurationList", Model)
+</div>
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // AJAX cho phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('#configList').html(data);
+                });
+            });
+
+            // AJAX cho tìm kiếm
+            $('#searchForm').on('submit', function (e) {
+                e.preventDefault();
+                $.get($(this).attr('action'), $(this).serialize(), function (data) {
+                    $('#configList').html(data);
+                });
+            });
+        });
+    </script>
+}

@@ -1,5 +1,4 @@
 ﻿
-using AODWebsite.Services.Services;
 using DataAccess.EFCore.Repositories;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -9,8 +8,9 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using X.PagedList;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using LGWebsite.Services.Services;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class BlogsCategoryService : IBlogsCategoryService
     {
@@ -75,7 +75,7 @@ namespace AODWebsite.Services
                 Description = category.Description,
                 Detail = category.Detail,
                 IsDeleted = category.IsDeleted,
-                IsDarft = category.IsDarft,
+                IsDraft = category.IsDarft,
                 ImageUrl = category.ImageUrl,
                 ThumbnailUrl = category.ThumbnailUrl,
                 DateCreated = DateTimeOffset.Now,
@@ -141,7 +141,7 @@ namespace AODWebsite.Services
             if (category != null)
             {
                 category.IsDeleted = isDeleted;
-                category.IsDarft = isDarft;
+                category.IsDraft = isDarft;
                 category.IsHome = isHome;
                 await _unitOfWork.BlogsCategory.UpdateAsync(category);
                 _unitOfWork.Complete();

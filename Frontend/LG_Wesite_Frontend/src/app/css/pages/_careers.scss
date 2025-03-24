@@ -1,0 +1,304 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #ffffff;
+    color: #333;
+  }
+  .about-container-img {
+    position: relative;
+    overflow: hidden; // Đảm bảo không có phần thừa của ảnh
+  
+    .image-overlay {
+      position: relative;
+    }
+  
+    .background-image {
+      width: 100%; // Ảnh tràn chiều rộng
+      height: auto; // Giữ tỷ lệ ảnh
+    }
+  
+    // Lớp phủ bán trong suốt trên ảnh nền
+    &::before {  // Sử dụng &::before thay vì .about-container-img::before
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(12, 13, 14, 0.6); // Màu overlay bán trong suốt
+      z-index: 1;
+    }
+  
+    .overlay-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 72px;
+      text-align: center;
+      z-index: 2; // Đảm bảo chữ nằm trên lớp phủ
+    }
+  }
+.recruitment-sections{
+    padding-bottom: 80px;
+}
+.banner-title {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 3rem;
+    color: white;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.recruitment-sections {
+    text-align: center;
+}
+
+.job-opportunities-title {
+    margin-bottom: 68px;
+}
+.jobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    row-gap: 40px;
+    column-gap: 24px;
+}
+
+.job-card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+}
+
+.job-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.job-content h4 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.job-content p {
+    color: #515961;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.read-more {
+    display: flex;
+    color: #05836b !important;
+    text-decoration: none;
+    text-decoration: underline;
+}
+
+.job-detail-section{
+    padding-bottom: 80px;
+}
+
+.Job-background {
+    background: #F0F3F6;
+}
+
+
+/* Responsive cho các kích thước màn hình */
+
+/* Tablet ngang (1199px trở xuống) */
+@media (max-width: 1199px) {
+
+    .banner-title {
+        font-size: 2.5rem;
+    }
+
+    .job-content {
+        padding: 20px 8px 8px;
+    }
+    
+    .job-detail-section {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-bottom: 48px !important;
+    }
+    .jobs-grid {
+        padding-bottom: 0px !important;
+        margin-left:20px;
+        padding-right: 20px;    
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
+        display: flex;
+        gap: 20px;
+        margin-left: 20px;
+        white-space: nowrap;
+        &.scrollable {
+            overflow-x: auto; // Enables horizontal scrolling only if `isScrollable` is true
+            scroll-snap-type: x mandatory;
+        }
+
+        .job-card {
+            scroll-snap-align: start;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            flex: 0 0 80%;
+            max-width: 100%;
+        }
+
+        .job-card:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .recruitment-sections{
+        padding-bottom: 40px;
+    }
+    .ws{
+        width: 95%;
+    }
+}
+
+
+/* Tablet dọc (991px trở xuống) */
+@media (max-width: 991px) {
+    .banner-title {
+        font-size: 2rem;
+    }
+
+    .jobs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
+        display: flex;
+        gap: 20px;
+        margin-left: 20px;
+        white-space: nowrap;
+        &.scrollable {
+            overflow-x: auto; // Enables horizontal scrolling only if `isScrollable` is true
+            scroll-snap-type: x mandatory;
+        }
+
+        .job-card {
+            scroll-snap-align: start;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            flex: 0 0 80%;
+            max-width: 100%;
+        }
+
+        .job-card:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .job-content {
+        padding: 18px 6px 6px;
+    }
+   
+}
+
+
+/* Mobile ngang (767px trở xuống) */
+@media (max-width: 767px) {
+    .jobs-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        display: flex;
+        gap: 20px;
+        margin-left: 20px;
+        white-space: nowrap;
+        &.scrollable {
+            overflow-x: auto; // Enables horizontal scrolling only if `isScrollable` is true
+            scroll-snap-type: x mandatory;
+        }
+
+        .job-card {
+            scroll-snap-align: start;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            flex: 0 0 80%;
+            max-width: 80%;
+        }
+
+        .job-card:hover {
+            transform: scale(1.05);
+        }
+    }
+
+
+    .ws{
+        width: 90%;
+    }
+    .banner-title {
+        font-size: 1.8rem;
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .read-more-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .recruitment-title {
+        padding-top: 40px !important;
+    }
+
+    .button-container{
+        padding-bottom: 0px !important;
+    }
+    .tl2 {
+        margin-bottom: 24px !important;
+    }
+
+    .read-more-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+}
+
+/* Mobile dọc (479px trở xuống) */
+@media (max-width: 479px) {
+    .banner-title {
+        font-size: 1.5rem;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .jobs-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+
+    .read-more-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 40px;
+    }
+}

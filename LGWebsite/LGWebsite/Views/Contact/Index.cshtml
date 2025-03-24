@@ -1,0 +1,168 @@
+﻿@using Domain.Entities
+
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var contacts = ViewBag.Contacts as List<Contact>;
+}
+
+<h2>Contact</h2>
+
+<div class="tab-content rounded-bottom">
+
+    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1009">
+        <table class="table">
+            <a style="margin-bottom:5px" class="btn btn-ghost-success active" href="/contact/create">Thêm mới</a>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">DateCreated</th>
+                    <th scope="col">UpdateBy</th>
+                    <th>Trạng thái</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (contacts?.Any() ?? false) // Updated line
+                {
+                    foreach (var contact in contacts)
+                    {
+                        <tr>
+                            <td>@contact.Id</td>
+                            <td>@contact.Name</td>
+                            <td>@contact.Email</td>
+                            <td>@contact.Phone</td>
+                            <td>
+                                <!-- Display truncated message with "Read more" -->
+                                @if (contact.Message != null && contact.Message.Length > 12)
+                                {
+                                    <span class="message-preview">@contact.Message.Substring(0, 12)</span>
+                                    <a href="#" class="toggle-message" data-message="@contact.Message" style="text-decoration: none"> ... </a>
+                                }
+                                else
+                                {
+                                    <span>@contact.Message</span>
+                                }
+                            </td>
+                            <td>@contact.DateCreated?.ToString("g")</td>
+                            <td>@contact.UpdateBy</td>
+                            <td>
+                                <!-- Edit Button -->
+                                <a class="btn btn-primary btn-sm" href="/contact/Edit/@contact.Id">Sửa</a>
+
+                                <button class="btn btn-danger btn-sm" onclick="Delete(@contact.Id)">Xóa</button>
+                                <form id="@contact.Id" action="/contact/Delete" method="post" style="display:none;">
+                                    <input type="hidden" name="id" value="@contact.Id" />
+                                </form>
+                            </td>
+
+                            <td>
+                                <div style="margin-top:3px;">
+                                    <button type="button" class="btn btn-link btn-sm mark-as-read" data-id="@contact.Id" title="Đánh dấu là đã đọc hoặc chưa đọc">
+                                        @if (contact.IsRead)
+                                        {
+                                            <i class="fas fa-eye-slash"></i> <!-- Mắt bị gạch (đã đọc) -->
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-eye"></i> <!-- Mắt (chưa đọc) -->
+                                        }
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No contacts available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Full Message</h5>
+            </div>
+            <div class="modal-body" id="modalMessageContent">
+                <!-- Full message will be injected here -->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Show the full message in a modal when "Read more" is clicked
+        //     document.querySelectorAll('.toggle-message').forEach(function (link) {
+        //         link.addEventListener('click', function (event) {
+        //             event.preventDefault();
+
+        //             const fullMessage = this.dataset.message; // Get the full message from data attribute
+        //             document.getElementById('modalMessageContent').textContent = fullMessage; // Inject full message into modal
+        //             new bootstrap.Modal(document.getElementById('messageModal')).show(); // Show modal
+        //         });
+        //     });
+        // });
+        document.querySelectorAll(".mark-as-read").forEach(button => {
+            button.addEventListener("click", function () {
+                const contactId = this.getAttribute("data-id");
+
+                fetch(`/Contact/ToggleReadStatus/${contactId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        // Kiểm tra trạng thái mới của IsRead
+                        if (data.isRead) {
+                            // Nếu đã đọc, hiển thị icon mắt bị gạch và disable button
+                            this.querySelector("i").classList.remove("fa-eye");
+                            this.querySelector("i").classList.add("fa-eye-slash");
+                            this.closest("tr").querySelector("td.status").innerHTML = "Đã đọc";
+                        } else {
+                            // Nếu chưa đọc, hiển thị lại icon mắt và enable button
+                            this.querySelector("i").classList.remove("fa-eye-slash");
+                            this.querySelector("i").classList.add("fa-eye");
+                            this.closest("tr").querySelector("td.status").innerHTML = "Chưa đọc";
+                        }
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+        function Delete(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+                // Tìm phần tử form theo ID
+                var form = document.getElementById(id);
+                if (form) {
+                    // Nếu form tồn tại, thực hiện xóa
+                    form.submit();
+                } else {
+                    console.error('Form not found for ID:', id);
+                }
+            }
+        }
+    </script>
+}

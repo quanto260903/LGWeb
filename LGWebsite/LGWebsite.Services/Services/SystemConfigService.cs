@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using X.PagedList;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class SystemConfigService : ISystemConfigService
     {
@@ -17,7 +17,7 @@ namespace AODWebsite.Services
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
-        public async Task<IPagedList<SystemConFig>> GetAllConfigurationsAsync(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<IPagedList<SystemConfiguration>> GetAllConfigurationsAsync(string sortOrder, string currentFilter, string searchString, int? page)
         {
             //get configuration item per page
             var itemPerPage = await _unitOfWork.Configuration.FirstOrDefaultAsync("ItemsPerPage");
@@ -29,25 +29,25 @@ namespace AODWebsite.Services
                 var configurations = await _unitOfWork.SystemConFig.GetConfigurationsAsync(sortOrder, searchString, pageNumber, pageSize);
                 var totalConfigurations = await _unitOfWork.SystemConFig.GetConfigurationsAsync(sortOrder, searchString, 1, int.MaxValue);
 
-                return new StaticPagedList<SystemConFig>(configurations, pageNumber, pageSize, totalConfigurations.Count());
+                return new StaticPagedList<SystemConfiguration>(configurations, pageNumber, pageSize, totalConfigurations.Count());
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving configurations.");
-                return new StaticPagedList<SystemConFig>(new List<SystemConFig>(), pageNumber, pageSize, 0);
+                return new StaticPagedList<SystemConfiguration>(new List<SystemConfiguration>(), pageNumber, pageSize, 0);
             }
         }
-        public async Task<IEnumerable<SystemConFig>> GetAllConfigsAsync()
+        public async Task<IEnumerable<SystemConfiguration>> GetAllConfigsAsync()
         {
             return await _unitOfWork.SystemConFig.GetAllAsync();
         }
 
-        public async Task<SystemConFig> GetConfigByIdAsync(int id)
+        public async Task<SystemConfiguration> GetConfigByIdAsync(int id)
         {
             return await _unitOfWork.SystemConFig.GetByIdAsync(id);
         }
 
-        public async Task AddConfigAsync(SystemConFig config)
+        public async Task AddConfigAsync(SystemConfiguration config)
         {
 
             // Check for unique ConfigKey
@@ -63,7 +63,7 @@ namespace AODWebsite.Services
             _unitOfWork.Complete();
         }
 
-        public async Task UpdateConfigAsync(SystemConFig config, string updatedBy)
+        public async Task UpdateConfigAsync(SystemConfiguration config, string updatedBy)
         {
             // Check for unique ConfigKey, excluding the current config
             if (await IsConfigKeyExistsAsync(config.ConfigKey, config.Id))

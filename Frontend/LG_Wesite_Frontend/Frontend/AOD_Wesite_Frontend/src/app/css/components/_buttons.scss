@@ -1,0 +1,64 @@
+.button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.read-more-btn {
+  display: inline-block;
+  padding: 12px 8px;
+  width: 160px;
+  height: 48px;
+  background-color: #05836B;
+  color: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 32px;
+ 
+}
+
+.read-more-small-btn{
+  display: flex;
+  font-size: 1rem;
+  color: #05836b;
+  text-decoration: none;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+
+@media (max-width:1199px){
+  .read-more-btn{
+    margin-top: 32px !important;
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width:991px){
+  /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+@media (max-width:767px){
+  .read-more-btn{
+    margin-top: 24px !important;
+  }
+
+}
+
+@media (max-width:479px){
+  /*Bắt đầu từ mobile, tức css viết ngoài cùng là css cho trường hợp mobile dựng dọc - thường là 1 cột, padding left right 15px*/
+
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+}

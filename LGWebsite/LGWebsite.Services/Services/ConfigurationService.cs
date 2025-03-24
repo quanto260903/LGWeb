@@ -1,5 +1,5 @@
-﻿using AODWebsite.Services;
-using AODWebsite.Services.Services;
+﻿using LGWebsite.Services;
+using LGWebsite.Services.Services;
 using DataAccess.EFCore;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -15,7 +15,7 @@ public class ConfigurationService : IConfigurationService
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ConfigurationService> _logger;
     // Thread-safe dictionary to hold the configurations
-    private static readonly ConcurrentDictionary<ConfigurationKeys, Configuration> _configurations = new ConcurrentDictionary<ConfigurationKeys, Configuration>();
+    private static readonly ConcurrentDictionary<ConfigurationKeys, WebConfiguration> _configurations = new ConcurrentDictionary<ConfigurationKeys, WebConfiguration>();
 
     // Lock object for thread-safety
     private static readonly object _lock = new object();
@@ -27,7 +27,7 @@ public class ConfigurationService : IConfigurationService
         _logger = logger;
     }
 
-    public async Task<IPagedList<Configuration>> GetAllConfigurationsAsync(string sortOrder, string currentFilter, string searchString, int? page)
+    public async Task<IPagedList<WebConfiguration>> GetAllConfigurationsAsync(string sortOrder, string currentFilter, string searchString, int? page)
     {
         //get configuration item per page
         //var itemPerPage = await _unitOfWork.Configuration.FirstOrDefaultAsync("ItemsPerPage");
@@ -43,22 +43,22 @@ public class ConfigurationService : IConfigurationService
             var configurations = await _unitOfWork.Configuration.GetConfigurationsAsync(sortOrder, searchString, pageNumber, pageSize);
             var totalConfigurations = await _unitOfWork.Configuration.GetConfigurationsAsync(sortOrder, searchString, 1, int.MaxValue);
 
-            return new StaticPagedList<Configuration>(configurations, pageNumber, pageSize, totalConfigurations.Count());
+            return new StaticPagedList<WebConfiguration>(configurations, pageNumber, pageSize, totalConfigurations.Count());
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving configurations.");
-            return new StaticPagedList<Configuration>(new List<Configuration>(), pageNumber, pageSize, 0);
+            return new StaticPagedList<WebConfiguration>(new List<WebConfiguration>(), pageNumber, pageSize, 0);
         }
     }
 
-    public async Task AddConfigurationAsync(Configuration model)
+    public async Task AddConfigurationAsync(WebConfiguration model)
     {
         await _unitOfWork.Configuration.AddAsync(model);
         _unitOfWork.Complete();
     }
 
-    public async Task<Configuration> GetConfigurationByIdAsync(int id)
+    public async Task<WebConfiguration> GetConfigurationByIdAsync(int id)
     {
         return await _unitOfWork.Configuration.GetByIdAsync(id);
     }
@@ -72,7 +72,7 @@ public class ConfigurationService : IConfigurationService
         return await _unitOfWork.Configuration.FirstOrDefaultAsync(c => c.ConfigKey == configKey) != null;
     }
 
-    public async Task UpdateConfigurationAsync(Configuration model, string updatedBy)
+    public async Task UpdateConfigurationAsync(WebConfiguration model, string updatedBy)
     {
         var existingConfiguration = await _unitOfWork.Configuration.GetByIdAsync(model.Id);
         if (existingConfiguration != null)
@@ -121,7 +121,7 @@ public class ConfigurationService : IConfigurationService
     }
 
     // Method to get configuration by Enum Key
-    public static Configuration GetConfiguration(ConfigurationKeys key)
+    public static WebConfiguration GetConfiguration(ConfigurationKeys key)
     {
         if (_configurations.ContainsKey(key))
         {
@@ -132,10 +132,10 @@ public class ConfigurationService : IConfigurationService
         {
             if (!_configurations.ContainsKey(key))
             {
-                using (var context = new AodwebsiteContext())
+                using (var context = new LgwebsiteContext())
                 {
                     string keyString = key.ToString();
-                    var config = context.Configurations
+                    var config = context.WebConfigurations
                                         .AsNoTracking()
                                         .FirstOrDefault(c => c.ConfigKey == keyString);
 
@@ -159,24 +159,24 @@ public class ConfigurationService : IConfigurationService
 
         lock (_lock)
         {
-            using (var context = new AodwebsiteContext())
+            using (var context = new LgwebsiteContext())
             {
                 string keyString = key.ToString();
-                var config = context.Configurations.FirstOrDefault(c => c.ConfigKey == keyString);
+                var config = context.WebConfigurations.FirstOrDefault(c => c.ConfigKey == keyString);
 
                 if (config != null)
                 {
                     config.ConfigValue = valueAsString;
-                    context.Configurations.Update(config);
+                    context.WebConfigurations.Update(config);
                 }
                 else
                 {
-                    config = new Configuration
+                    config = new WebConfiguration
                     {
                         ConfigKey = keyString,
                         ConfigValue = valueAsString
                     };
-                    context.Configurations.Add(config);
+                    context.WebConfigurations.Add(config);
                 }
 
                 context.SaveChanges();

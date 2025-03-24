@@ -1,5 +1,5 @@
-﻿using AODWebsite.Services.Common;
-using AODWebsite.Services.IService;
+﻿using LGWebsite.Services.Common;
+using LGWebsite.Services.IService;
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Models;
@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AODWebsite.Services.Services
+namespace LGWebsite.Services.Services
 {
     public class AccountService : IAccountService
     {

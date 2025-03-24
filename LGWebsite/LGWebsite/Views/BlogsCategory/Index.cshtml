@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Blog Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categorys = (List<Category>)ViewBag.Categories;
+
+}
+@using Domain.Entities
+
+@model IEnumerable<Domain.Entities.BlogsCategory>
+<h1>Blog Categories</h1>
+<!-- Modal để hiển thị ảnh gốc -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px;">
+            </div>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("GetConfigurations", "BlogsCategory", FormMethod.Get, new { id = "searchForm" }))
+{
+
+    <p>
+        <div class="input-group mb-3">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Tìm kiếm theo tên và description", aria_label = "Tìm kiếm theo tên" })
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm kiếm</button>
+        </div>
+    </p>
+}
+<div id="configList">
+    @await Html.PartialAsync("_BlogCategoryList", Model)
+</div>
+
+
+@section Scripts {
+    <script>
+        function showImage(imageUrl) {
+            var mainImage = document.getElementById("mainImage");
+            mainImage.src = imageUrl;
+            $('#imageModal').modal('show');
+        }
+
+        function toggleBlogsCategoryStatus(BlogsCategoryId, isDeleted, isDarft, isHome) {
+            $.ajax({
+                url: '/BlogsCategory/UpdateBlogsCategoryStatus', // Đường dẫn tới Action trong Controller
+                type: 'POST',
+                data: {
+                    id: BlogsCategoryId,
+                    isDeleted: isDeleted,
+                    isDarft: isDarft,
+                    isHome: isHome
+                },
+                success: function (response) {
+                    console.log(response);  // Log lại response để kiểm tra
+                    if (response.success) {
+                        alert("Trạng thái đã được cập nhật thành công!");
+                    } else {
+                        alert("Cập nhật trạng thái thất bại.");
+                    }
+                },
+                error: function () {
+                    alert("Đã xảy ra lỗi trong quá trình cập nhật.");
+                }
+            });
+        }
+
+        function Delete(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+                // Tìm phần tử form theo ID
+                var form = document.getElementById(id);
+                if (form) {
+                    // Nếu form tồn tại, thực hiện xóa
+                    form.submit();
+                } else {
+                    console.error('Form not found for ID:', id);
+                }
+            }
+        }
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // AJAX cho phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('#configList').html(data);
+                });
+            });
+
+            // AJAX cho tìm kiếm
+            $('#searchForm').on('submit', function (e) {
+                e.preventDefault();
+                $.get($(this).attr('action'), $(this).serialize(), function (data) {
+                    $('#configList').html(data);
+                });
+            });
+        });
+    </script>
+}

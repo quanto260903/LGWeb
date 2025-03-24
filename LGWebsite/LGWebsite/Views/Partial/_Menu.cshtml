@@ -1,0 +1,117 @@
+﻿<div class="sidebar sidebar-dark sidebar-fixed border-end" id="sidebar">
+    <div class="sidebar-header border-bottom">
+        <div class="sidebar-brand">
+            <svg class="sidebar-brand-full" width="88" height="32" alt="CoreUI Logo">
+                <use xlink:href="/assets/brand/coreui.svg#full"></use>
+            </svg>
+            <svg class="sidebar-brand-narrow" width="32" height="32" alt="CoreUI Logo">
+                <use xlink:href="/assets/brand/coreui.svg#signet"></use>
+            </svg>
+        </div>
+        <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
+    </div>
+    <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-speedometer"></use>
+                </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
+            </a>
+        </li>
+
+        <li class="nav-title">Quản Trị User</li>
+        <li class="nav-item">
+            @if (User.IsInRole("0"))
+            {
+                <a class="nav-link" href="~/User">
+                    <svg class="nav-icon">
+                        <use xlink:href="/assets/icons/sprites/free.svg#cil-user-plus"></use>
+                    </svg> User
+                </a>
+            }
+            <a class="nav-link" href="~/SystemConFig">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-assistive-listening-system"></use>
+                </svg> System Configuration
+            </a>
+        </li>
+        <li class="nav-title">Quản trị chức năng</li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/Configuration">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-puzzle"></use>
+                </svg> Web Configurations
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/Slide">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-cursor"></use>
+                </svg> Slides
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/Menu">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-hamburger-menu"></use>
+                </svg> MENU
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="~/Category/GetCategories">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-notes"></use>
+                </svg> Category
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="~/BlogsCategory">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-star"></use>
+                </svg> BlogsCategory
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="~/Partner">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-bell"></use>
+                </svg> Partner
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="~/Contact">
+                <svg class="nav-icon">
+                    <use xlink:href="/assets/icons/sprites/free.svg#cil-calculator"></use>
+                </svg> Contacts<span class="badge badge-sm bg-info ms-auto">NEW</span>
+            </a>
+        </li>
+    </ul>
+    <div class="sidebar-footer border-top d-none d-md-flex">
+        <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+    </div>
+
+</div>
+
+<script>
+    let lastScrollTop = 0; // To keep track of the last scroll position
+    const header = document.querySelector('header.header');
+
+    document.addEventListener('scroll', () => {
+        if (header) {
+            header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+        }
+
+        let currentScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+        if (currentScrollTop > lastScrollTop) {
+            // Scrolling down - hide the header
+            header.style.top = "-60px"; // Move the header up to hide it
+        } else {
+            // Scrolling up - show the header
+            header.style.top = "0";
+        }
+
+        // Update the last scroll position
+        lastScrollTop = currentScrollTop;
+    });
+</script>

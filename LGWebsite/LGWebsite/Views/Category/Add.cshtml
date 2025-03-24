@@ -1,0 +1,79 @@
+﻿@model Domain.Entities.Category
+@{
+    ViewData["Title"] = "Category / Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Add Category</h1>
+
+<form asp-action="Add" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="ImageFile" class="input-group-text">Chọn ảnh</label>
+        <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/*" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PositionTab">Position</label>
+        <select asp-for="PositionTab" class="form-control">
+            <option value="">-- Select Position --</option>
+            @foreach (var position in PositionTab.GetListPositionTab())
+            {
+                <option value="@position">@position</option>
+            }
+        </select>
+        <span asp-validation-for="Id" class="text-danger"></span>
+    </div>
+    <!-- Preview selected image and thumbnail -->
+    <div style="margin-bottom: 10px;">
+        <label class="form-label">Ảnh đã chọn:</label>
+        <div id="imagePreview" style="display: flex; gap: 10px;">
+            <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 400px; height: auto; display: none;" />
+            <img id="thumbnailImage" src="#" alt="Thumbnail" style="max-height: 100px; width: auto; display: none;" />
+        </div>
+    </div>
+
+    <div class="form-check form-switch">
+        <label class="form-label" for="flexSwitchCheckDefault">Chọn IsDeleted</label>
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+               name="IsDeleted" value="true" @(Model.IsDeleted == true ? "checked" : "") />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<a asp-action="GetCategories">Back to List</a>
+<!-- JavaScript for image and SVG icon previews -->
+<script>
+    // Preview selected image and thumbnail
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var selectedImage = document.getElementById("selectedImage");
+            selectedImage.src = reader.result;
+            selectedImage.style.display = "block";
+
+            // Generate and show thumbnail
+            var thumbnailCanvas = document.createElement('canvas');
+            var thumbnailContext = thumbnailCanvas.getContext('2d');
+            var img = new Image();
+            img.src = reader.result;
+            img.onload = function () {
+                thumbnailCanvas.width = 100; // Set thumbnail width
+                thumbnailCanvas.height = 100; // Set thumbnail height
+                thumbnailContext.drawImage(img, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                var thumbnailImage = document.getElementById("thumbnailImage");
+                thumbnailImage.src = thumbnailCanvas.toDataURL(); // Create thumbnail
+                thumbnailImage.style.display = "block"; // Show thumbnail
+            };
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+
+</script>

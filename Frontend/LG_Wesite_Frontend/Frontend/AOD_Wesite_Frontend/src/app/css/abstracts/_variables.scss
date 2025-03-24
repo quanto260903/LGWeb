@@ -1,0 +1,203 @@
+.tl{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    text-align: center;
+    color: #05836B ;
+    margin-bottom: 12px;
+    padding-top: 80px;
+}
+
+.tl2{
+    font-weight: 600;
+    font-size: 32px ;
+    line-height: 40px ;
+    text-align: center;
+    color: #0C0D0E ;
+    margin-bottom: 68px;
+}
+
+.tl3{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+.tl4{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.tl41{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #0C0D0E;
+
+}
+.tl43{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+
+}
+.tl42{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+.tl44{
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 32px;
+    color: #0C0D0E;
+}
+.tl5{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #2d3239;
+}
+.tl6{
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 72px;
+    align-items: center;
+}
+.body1{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #515961;
+}
+.body2{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #515961;
+}
+.contact-title{
+    font-weight: 600;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 24px;
+    color: #CF202F;
+}
+.contact-body{
+    font-weight: 400;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000000;
+}
+
+
+
+
+@media (max-width:1199px){
+    .tl{
+        font-weight: 600 ;
+        font-size: 18px !important;
+        line-height: 24px !important;
+        text-align: center;
+        color: #05836B ;
+        margin-bottom: 12px;
+        padding-top: 40px;
+    }
+    
+    .tl2{
+        font-weight: 600;
+        font-size: 18px ;
+        line-height: 24px ;
+        text-align: center;
+        color: #0C0D0E ;
+        margin-bottom: 24px;
+    }
+    
+    .tl3{
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+    }
+    
+    .tl4{
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .tl41{
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        color: #0C0D0E;
+    
+    }
+    .tl43{
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+	
+}
+
+
+@media (max-width:991px){
+    /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+    /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+	
+}
+
+@media (max-width:767px){
+    .tl{
+        font-weight: 600 ;
+        font-size: 18px !important;
+        line-height: 24px !important;
+        text-align: center;
+        color: #05836B ;
+        margin-bottom: 12px;
+        padding-top: 40px;
+    }
+    
+    .tl2{
+        font-weight: 600;
+        font-size: 18px ;
+        line-height: 24px ;
+        text-align: center;
+        color: #0C0D0E ;
+        margin-bottom: 24px;
+    }
+    
+    .tl3{
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+    }
+    
+    .tl4{
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .tl41{
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+        color: #0C0D0E;
+    
+    }
+    .tl43{
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+	
+}
+
+@media (max-width:479px){
+    /*Bắt đầu từ mobile, tức css viết ngoài cùng là css cho trường hợp mobile dựng dọc - thường là 1 cột, padding left right 15px*/
+
+    /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+}

@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Configurations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model X.PagedList.IPagedList<Domain.Entities.WebConfiguration>
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+<h1>Configurations</h1>
+
+
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+        @TempData.Remove("Message") // Clear TempData after showing the alert
+    </script>
+}
+
+<p>
+    <a href="@Url.Action("Add")" class="btn btn-success">
+        <span class="cil-contrast"></span> Create New
+    </a>
+</p>
+@using (Html.BeginForm("GetConfigurations", "Configuration", FormMethod.Get, new { id = "searchForm" }))
+{
+
+    <p>
+        <div class="input-group mb-3">
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Tìm kiếm theo key và value", aria_label = "Tìm kiếm theo tên" })
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm kiếm</button>
+        </div>
+    </p>
+}
+<div id="configList">
+    @await Html.PartialAsync("_ConfigurationList", Model)
+</div>
+
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // AJAX cho phân trang
+            $(document).on('click', '.pagination a', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                $.get(url, function (data) {
+                    $('#configList').html(data);
+                });
+            });
+
+            // AJAX cho tìm kiếm
+            $('#searchForm').on('submit', function (e) {
+                e.preventDefault();
+                $.get($(this).attr('action'), $(this).serialize(), function (data) {
+                    $('#configList').html(data);
+                });
+            });
+        });
+    </script>
+}

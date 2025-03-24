@@ -10,7 +10,7 @@ namespace DataAccess.EFCore.Repositories
 {
     public class VideoRepository : GenericRepository<Video>, IVideoRepository
     {
-        public VideoRepository(AodwebsiteContext context) : base(context)
+        public VideoRepository(LgwebsiteContext context) : base(context)
         {
         }
     }

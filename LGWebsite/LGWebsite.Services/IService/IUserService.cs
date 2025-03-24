@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public interface IUserService
     {

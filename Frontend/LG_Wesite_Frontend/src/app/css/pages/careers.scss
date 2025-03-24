@@ -1,0 +1,53 @@
+
+.job-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    column-gap: 24px;
+    row-gap: 40px;
+}
+
+.job-card h4 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.job-card p {
+    color: #515961;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+
+
+/* Tablet ngang (1199px trở xuống) */
+@media (max-width: 1199px) {
+    .job-cards {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .job-card img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+}
+
+/* Tablet dọc (991px trở xuống) */
+@media (max-width: 991px) {}
+
+
+/* Mobile ngang (767px trở xuống) */
+@media (max-width: 767px) {
+
+    .job-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        column-gap: 24px;
+        row-gap: 40px;
+    }
+}
+
+/* Mobile dọc (479px trở xuống) */
+@media (max-width: 479px) {}

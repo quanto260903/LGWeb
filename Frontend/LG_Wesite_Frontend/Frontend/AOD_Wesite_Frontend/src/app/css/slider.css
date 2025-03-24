@@ -1,0 +1,131 @@
+.slider {
+  background: #F0F3F6;
+  min-height: 200px;
+  max-height: 714px;
+  padding: 110px 0;
+}
+
+.slider .slider-item {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide .slider-item .content {
+  flex: 1;
+  text-align: left;
+  margin: auto;
+}
+
+.swiper-slide .slider-item .content .slider-title {
+  width: 50%;
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+
+.swiper-slide .slider-item .content .description {
+  font-size: 16px;
+  line-height: 24px;
+  padding-bottom: 20px;
+  color: #515961;
+  ;
+}
+
+.swiper-slide .slider-item .image {
+  flex: 1;
+}
+
+.small-title {
+  color: #00bfa5;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+  /* Swiper pagination */
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background-color: black !important;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    margin: 0 10px !important;
+    /* Khoảng cách giữa các chấm */
+    &.swiper-pagination-bullet-active::after {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid black;
+      border-radius: 50%;
+    }
+  }
+
+@media (max-width:1199px){
+  .slider-item{
+    display: flex;
+    flex-direction: column-reverse !important;
+    padding: 0 20px;
+    gap: 32px !important;
+  }
+
+ 
+  .slider-title{
+    width: 100% !important;
+    font-size: 28px !important;
+    line-height: 36px !important;
+    font-weight: 600 !important;
+    padding-bottom: 20px !important;
+    padding-top: 32px;
+  }
+
+  .slider {
+    background: #F0F3F6;
+    min-height: 200px;
+    max-height: 1140px;
+    padding: 50px 0;
+  }
+  .content{
+    margin: 0px !important;
+  }
+}
+
+
+@media (max-width:991px){
+  /*Bắt đầu từ 768 tính tương ứng với trường hợp tablet dựng dọc - thường là 2 hoặc 3 cột*/
+  /*Xử lý cho các khối trên pc thì hiện, trên tablet thì ẩn hoặc ngược lại*/
+
+}
+
+@media (max-width:767px){
+  .slider-item{
+    display: flex;
+    flex-direction: column-reverse !important;
+    padding: 0 20px;
+  }
+
+  .slider-title{
+    width: 100% !important;
+    font-size: 28px !important;
+    line-height: 36px !important;
+    font-weight: 600 !important;
+    padding-bottom: 20px !important;
+    padding-top: 32px;
+  }
+  .slider{
+    padding: 40px 0px;
+  }
+
+  
+}
+
+@media (max-width:479px){
+  /*Bắt đầu từ mobile, tức css viết ngoài cùng là css cho trường hợp mobile dựng dọc - thường là 1 cột, padding left right 15px*/
+
+  /*Xử lý cho các khối trên pc thì hiện, trên mobile thì ẩn hoặc ngược lại*/
+}

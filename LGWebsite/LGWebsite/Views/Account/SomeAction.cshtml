@@ -1,0 +1,9 @@
+﻿@{
+    Layout = "_Layout"; // Đảm bảo rằng layout được sử dụng
+}
+
+
+<div class="avatar avatar-md">
+    <h2>Chào, @ViewBag.Username!</h2>
+    <img src="@Url.Content(ViewBag.ImageUrl)" alt="User's Avatar" />
+</div>

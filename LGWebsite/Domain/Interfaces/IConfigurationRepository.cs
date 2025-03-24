@@ -2,10 +2,10 @@
 
 namespace Domain.Interfaces
 {
-    public interface IConfigurationRepository : IGenericRepository<Configuration>
+    public interface IConfigurationRepository : IGenericRepository<WebConfiguration>
     {
-        Task<IEnumerable<Configuration>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize);
+        Task<IEnumerable<WebConfiguration>> GetConfigurationsAsync(string sortOrder, string searchString, int pageNumber, int pageSize);
 
-        Task<Configuration> FirstOrDefaultAsync(string configKey);
+        Task<WebConfiguration> FirstOrDefaultAsync(string configKey);
     }
 }

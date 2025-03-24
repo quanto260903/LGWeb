@@ -1,0 +1,184 @@
+﻿@using Domain.Models
+@model IEnumerable<Domain.Entities.Menu>
+
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Menu</h2>
+<!-- Modal để hiển thị ảnh gốc -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="tab-content rounded-bottom">
+    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1009">
+        <table class="table">
+            <a style="margin-bottom:5px" class="btn btn-ghost-success active" href="/Menu/Create">Thêm mới</a>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ImageUrl</th>
+                    <th>Position</th>
+                    <th>Order</th>
+                    <th>Date Created</th>
+                    <th>Date Modified</th>
+                    <th>Updated By</th> <!-- Thêm tiêu đề mới -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Gọi hàm RenderMenuItems để hiển thị tất cả menu và các cấp con -->
+                @{
+                    RenderMenuItems(Model, 0, 0);
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+@functions {
+    // Hàm đệ quy để hiển thị menu và các cấp con
+    private void RenderMenuItems(IEnumerable<Domain.Entities.Menu> menus, int parentId, int level)
+    {
+        // Lấy tất cả các menu con của parentId hiện tại
+        var childMenus = menus.Where(m => m.ParentId == parentId).ToList();
+
+        foreach (var menu in childMenus)
+        {
+            // Chỉ hiển thị menu ở cấp lv0 ban đầu
+            if (level == 0)
+            {
+                <tr id="menu-@menu.Id">
+                    <td style="padding-left: @(20 * level + (level == 0 ? 10 : 0))px;">
+                        <span class="toggle-menu" onclick="toggleMenu('@menu.Id')">
+                            <strong>@menu.Name</strong> <!-- In đậm menu cha -->
+                        </span>
+                    </td>
+                    <td>
+
+                        @if (!string.IsNullOrEmpty(menu.ImageUrl))
+                        {
+                            <a href="javascript:void(0);" onclick="showImage('@Url.Content(menu.ImageUrl)')">
+                                <img src="@Url.Content(menu.ImageUrl)" alt="Image" style="max-height: 100px; max-width: 100px;"
+                                     onerror="this.onerror=null; this.src='@Url.Content("~/picture/NoImage.png")'; this.alt='No Image';" />
+                            </a>
+                        }
+                        else
+                        {
+                            <svg class="nav-icon" style="max-height: 40px; max-width: 40px;">
+                                <use xlink:href="/assets/icons/sprites/free.svg#cil-image"></use>
+                            </svg>
+                        }
+                    </td>
+                    <td>@Enum.GetName(typeof(MenuPositionType), menu.PositionType.Value)</td>
+                    <td>@menu.SortOrder</td>
+                    <td>@(menu.DateCreated?.ToString("g") ?? "N/A")</td>
+                    <td>@(menu.DateModified?.ToString("g") ?? "N/A")</td>
+                    <td>@menu.UpdateBy</td> <!-- Hiển thị thông tin người cập nhật -->
+                    <td>
+                        <!-- Edit Button -->
+                        <a class="btn btn-primary btn-sm" href="/Menu/Edit/@menu.Id">Sửa</a>
+                        <!-- Delete Confirmation Button -->
+                        <button class="btn btn-danger btn-sm" onclick="deleteMenu(@menu.Id)">Xóa</button>
+                    </td>
+                </tr>
+            }
+
+            // Gọi hàm để hiển thị các menu con của menu hiện tại nhưng ẩn chúng đi ban đầu
+            <tr id="menu-@menu.Id" data-parent-id="menu-@parentId" style="display:none;">
+                <td style="padding-left: @(20 * (level + 1))px;">
+                    <span class="toggle-menu" onclick="toggleMenu('@menu.Id')">
+                        @("--> " + menu.Name) <!-- Hiển thị mũi tên cho menu con -->
+                    </span>
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(menu.ImageUrl))
+                    {
+                        <a href="javascript:void(0);" onclick="showImage('@Url.Content(menu.ImageUrl)')">
+                            <img src="@Url.Content(menu.ImageUrl)" alt="Image" style="max-height: 100px; max-width: 100px;"
+                                 onerror="this.onerror=null; this.src='@Url.Content("~/picture/NoImage.png")'; this.alt='No Image';" />
+                        </a>
+                    }
+                    else
+                    {
+                        <svg class="nav-icon" style="max-height: 40px; max-width: 40px;">
+                            <use xlink:href="/assets/icons/sprites/free.svg#cil-image"></use>
+                        </svg>
+                    }
+                </td>
+
+                <td>@menu.PositionType</td>
+                <td>@menu.SortOrder</td>
+                <td>@(menu.DateCreated?.ToString("g") ?? "N/A")</td>
+                <td>@(menu.DateModified?.ToString("g") ?? "N/A")</td>
+                <td>@menu.UpdateBy</td>
+                <td>
+                    <!-- Edit Button -->
+                    <a class="btn btn-primary btn-sm" href="/Menu/Edit/@menu.Id">Sửa</a>
+                    <!-- Delete Confirmation Button -->
+                    <button class="btn btn-danger btn-sm" onclick="deleteMenu(@menu.Id)">Xóa</button>
+                </td>
+            </tr>
+
+            // Đệ quy để tiếp tục hiển thị các menu cấp con của menu hiện tại
+            RenderMenuItems(menus, menu.Id, level + 1);
+        }
+    }
+
+
+
+}
+
+
+<script>
+    function showImage(imageUrl) {
+        var mainImage = document.getElementById("mainImage");
+        mainImage.src = imageUrl;
+        $('#imageModal').modal('show');
+    }
+
+
+    function toggleMenu(menuId) {
+
+        // Chọn tất cả các menu con liên quan tới menu cha được click
+        var childMenus = document.querySelectorAll(`[data-parent-id='menu-${menuId}']`);
+        childMenus.forEach(childMenu => {
+            if (childMenu.style.display === "none") {
+                childMenu.style.display = "table-row"; // Hiển thị các menu con
+            } else {
+                childMenu.style.display = "none"; // Ẩn các menu con
+                // Ẩn tất cả menu con của menu hiện tại (nếu có)
+                var subChildMenus = document.querySelectorAll(`[data-parent-id='${childMenu.id}']`);
+                subChildMenus.forEach(subChild => {
+                    subChild.style.display = "none";
+                });
+            }
+        });
+    }
+    function deleteMenu(menuId) {
+        if (confirm("Bạn có chắc chắn muốn xóa mục này?")) {
+            $.ajax({
+                url: '/Menu/Delete/' + menuId,
+                type: 'POST',
+                success: function () {
+                    // Xóa hàng trong bảng
+                    $('#menu-' + menuId).remove();
+                    alert("Mục đã được xóa thành công.");
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra khi xóa mục. Vui lòng thử lại.");
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,127 @@
+﻿@model X.PagedList.IPagedList<Domain.Entities.User>
+@using Domain.Entities
+@using Domain.Models
+@using X.PagedList;
+@using X.PagedList.Mvc.Core
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img id="mainImage" src="" alt="Main Image" style="width: 100%; max-width: 600px;">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tab-content rounded-bottom">
+    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1009">
+        <table class="table">
+            <a style="margin-bottom:5px" class="btn btn-ghost-success active" href="/User/create">Thêm mới</a>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th>
+                        <a href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })" class="nav-link">
+                            <svg class="nav-icon">
+                                <use xlink:href="/assets/icons/sprites/free.svg#cil-sort-descending"></use>
+                            </svg>
+                            Name
+                        </a>
+                    </th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any()) // Sử dụng Model thay vì ViewBag.Users
+                {
+                    foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.UserName</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(user.ImageUrl))
+                                {
+                                    <a href="javascript:void(0);" onclick="showImage('@Url.Content(user.ImageUrl)')">
+                                        <img src="@Url.Content(user.ImageUrl)" alt="Image" style="height: 100px; width: 100px;"
+                                             onerror="this.onerror=null; this.src='@Url.Content("~/picture/NoImage.png")'; this.alt='No Image';" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <img src="~/picture/NoImage.png" alt="No Image" style="max-height: 100px; max-width: 100px;" />
+                                }
+                            </td>
+                            <td>@user.Email</td>
+                            <td>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" data-user-id="@user.Id"
+                                           id="flexSwitchCheckDefaultXl_@user.Id"
+                                    @(user.Active ? "checked" : "")
+                                           onclick="toggleSlideStatus(@user.Id, this.checked, this)" />
+                                </div>
+                                <label class="form-check-label"
+                                       for="flexSwitchCheckDefaultXl_@user.Id"
+                                       id="label_@user.Id">
+                                </label>
+                            </td>
+                            <td>@Enum.GetName(typeof(UserRole), user.Role)</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="/User/Edit/@user.Id">Sửa</a>
+                                <button class="btn btn-danger btn-sm" onclick="Delete(@user.Id)">Xóa</button>
+                                <form id="@user.Id" action="/User/Delete" method="post" style="display:none;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No Users available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @if (Model.PageCount > 1) // Kiểm tra nếu số trang lớn hơn 1
+                {
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" href="@Url.Action("GetUsers", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })">Previous</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("GetUsers", new { page = i, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })">@i</a>
+                    </li>
+                }
+
+                @if (Model.PageCount > 1) // Kiểm tra nếu số trang lớn hơn 1
+                {
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" href="@Url.Action("GetUsers", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })">Next</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+
+        <style>
+            .nav-icon {
+                width: 16px; /* Thay đổi kích thước theo nhu cầu */
+                height: 16px; /* Thay đổi kích thước theo nhu cầu */
+                vertical-align: middle; /* Căn giữa biểu tượng với văn bản */
+                margin-right: 5px; /* Khoảng cách giữa biểu tượng và văn bản */
+            }
+
+        </style>
+
+    </div>
+</div>
+

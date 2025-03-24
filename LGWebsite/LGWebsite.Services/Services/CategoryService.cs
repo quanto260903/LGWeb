@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class CategoryService : ICategoryService
     {

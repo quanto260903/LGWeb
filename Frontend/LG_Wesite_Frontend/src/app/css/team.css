@@ -1,0 +1,10 @@
+.slide-about-icon{
+    width: 24px !important;
+    margin-right: 10px !important;
+    margin-bottom: auto !important;
+    margin-top: auto !important;
+}
+
+.team-slider .team-info{
+    justify-content: space-around !important;
+}

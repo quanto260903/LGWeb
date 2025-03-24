@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Category / Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Domain.Entities.Category
+
+<h1>Edit Category</h1>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+
+    <!-- New image file input -->
+    <div class="input-group mb-3">
+        <label asp-for="ImageFile" class="input-group-text">Chọn ảnh mới</label>
+        <input asp-for="ImageFile" type="file" class="form-control" id="imageFileInput" />
+        <span asp-validation-for="ImageFile" class="text-danger"></span>
+    </div>
+    <!-- Show existing original image -->
+    <div id="currentImageContainer" style="margin-bottom: 10px;">
+        <label class="form-label">Ảnh hiện tại (Large):</label>
+        <img id="currentImage" src="@Model.ImageUrl" alt="Image" style="max-height: 300px; max-width: 300px;" />
+    </div>
+
+    <!-- New image preview (hidden by default) -->
+    <div id="newImageContainer" style="margin-bottom: 10px; display: none;">
+        <label class="form-label">Ảnh đã chọn (Large):</label>
+        <img id="selectedImage" src="#" alt="Image" style="max-height: 300px; max-width: 300px;" />
+        <img id="selectedThumbnail" src="#" alt="Thumbnail" style="max-height: 100px; max-width: 100px;" />
+    </div>
+    <!-- New image preview (hidden by default) -->
+    <div id="newImageContainer" style="margin-bottom: 10px; display: none;">
+        <label class="form-label">Ảnh đã chọn (Large):</label>
+        <img id="selectedImage" src="#" alt="Image" style="max-height: 300px; max-width: 300px;" />
+        <img id="selectedThumbnail" src="#" alt="Thumbnail" style="max-height: 100px; max-width: 100px;" />
+    </div>
+    <div class="form-check form-switch">
+        <label class="form-label" for="flexSwitchCheckDefault">Chọn IsDeleted</label>
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+               name="IsDeleted" value="true" @(Model.IsDeleted == true ? "checked" : "") />
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<a asp-action="GetCategories">Back to List</a>
+
+<script>
+    // Image preview when selecting new image
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            // Show new image preview
+            var selectedImage = document.getElementById("selectedImage");
+            selectedImage.src = reader.result;
+            document.getElementById("newImageContainer").style.display = "block";
+
+            // Hide the current image
+            document.getElementById("currentImageContainer").style.display = "none";
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    // Thumbnail preview when selecting new image
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            // Show new thumbnail preview
+            var selectedThumbnail = document.getElementById("selectedThumbnail");
+            selectedThumbnail.src = reader.result;
+            document.getElementById("newThumbnailContainer").style.display = "block";
+
+            // Hide the current thumbnail
+            document.getElementById("currentThumbnailContainer").style.display = "none";
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>

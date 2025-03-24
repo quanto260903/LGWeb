@@ -3,7 +3,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using X.PagedList;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public interface IBlogsCategoryService
     {

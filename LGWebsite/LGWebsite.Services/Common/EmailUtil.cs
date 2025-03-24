@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Domain.Interfaces;
 
-namespace AODWebsite.Services.Common
+namespace LGWebsite.Services.Common
 {
     public  class EmailUtil
     {

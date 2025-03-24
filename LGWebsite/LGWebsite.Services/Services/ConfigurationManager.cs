@@ -9,12 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AODWebsite.Services.Services
+namespace LGWebsite.Services.Services
 {
     public sealed class ConfigurationManager
     {
         // Thread-safe dictionary to hold the configurations
-        private static readonly ConcurrentDictionary<ConfigurationKeys, Configuration> _configurations = new ConcurrentDictionary<ConfigurationKeys, Configuration>();
+        private static readonly ConcurrentDictionary<ConfigurationKeys, WebConfiguration> _configurations = new ConcurrentDictionary<ConfigurationKeys, WebConfiguration>();
 
         // Lock object for thread-safety
         private static readonly object _lock = new object();
@@ -23,7 +23,7 @@ namespace AODWebsite.Services.Services
         private ConfigurationManager() { }
 
         // Method to get configuration by Enum Key
-        public static Configuration GetConfiguration(ConfigurationKeys key)
+        public static WebConfiguration GetConfiguration(ConfigurationKeys key)
         {
             if (_configurations.ContainsKey(key))
             {
@@ -34,10 +34,10 @@ namespace AODWebsite.Services.Services
             {
                 if (!_configurations.ContainsKey(key))
                 {
-                    using (var context = new AodwebsiteContext())
+                    using (var context = new LgwebsiteContext())
                     {
                         string keyString = key.ToString();
-                        var config = context.Configurations
+                        var config = context.WebConfigurations
                                             .AsNoTracking()
                                             .FirstOrDefault(c => c.ConfigKey == keyString);
 
@@ -61,24 +61,24 @@ namespace AODWebsite.Services.Services
 
             lock (_lock)
             {
-                using (var context = new AodwebsiteContext())
+                using (var context = new LgwebsiteContext())
                 {
                     string keyString = key.ToString();
-                    var config = context.Configurations.FirstOrDefault(c => c.ConfigKey == keyString);
+                    var config = context.WebConfigurations.FirstOrDefault(c => c.ConfigKey == keyString);
 
                     if (config != null)
                     {
                         config.ConfigValue = valueAsString;
-                        context.Configurations.Update(config);
+                        context.WebConfigurations.Update(config);
                     }
                     else
                     {
-                        config = new Configuration
+                        config = new WebConfiguration
                         {
                             ConfigKey = keyString,
                             ConfigValue = valueAsString
                         };
-                        context.Configurations.Add(config);
+                        context.WebConfigurations.Add(config);
                     }
 
                     context.SaveChanges();

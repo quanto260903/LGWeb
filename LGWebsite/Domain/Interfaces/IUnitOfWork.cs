@@ -5,8 +5,6 @@
         IConfigurationRepository Configuration { get; }
         ISlideRepository Slide { get; }
         ICategoryRepository Category { get; }
-        IPartnerRepository Partner { get; }
-
         IContactRepository Contact { get; }
         IMenuRepository Menu { get; }
         IUserRepository User { get; }

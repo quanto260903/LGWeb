@@ -1,0 +1,47 @@
+﻿@model Domain.Entities.SystemConfiguration
+
+@{
+    ViewData["Title"] = "System Configuration / Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create SystemConFig</h2>
+
+
+
+<div class="card-body">
+    <div class="example">
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+                <form id="myForm" class="row g-3 needs-validation" action="/SystemConFig/Create" method="post" enctype="multipart/form-data">
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="ConfigKey">ConfigKey</label>
+                        <textarea class="form-control" id="ConfigKey" placeholder="ConfigKey" required asp-for="ConfigKey"></textarea>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="ConfigValue">ConfigValue</label>
+                        <textarea class="form-control" id="ConfigValue" placeholder="ConfigValue" required asp-for="ConfigValue"></textarea>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="Description">Description</label>
+                        <textarea class="form-control" id="Description" placeholder="Description" required asp-for="Description"></textarea>
+                    </div>
+              <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Xác nhận</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@* 
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+ *@

@@ -1,0 +1,206 @@
+﻿@using Domain.Models
+@using Microsoft.AspNetCore.Html
+@model MenuCreateViewModel
+
+@{
+    ViewData["Title"] = "Menu / Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Create Menu</h2>
+<div class="card-body">
+    <div class="example">
+        <div class="tab-content rounded-bottom">
+            <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-1003">
+                <form id="myForm" class="row g-3 needs-validation" action="/Menu/Create" method="post" enctype="multipart/form-data">
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="name">Name</label>
+                        <textarea class="form-control" id="name" placeholder="Name" required asp-for="Menu.Name"></textarea>
+                        <span asp-validation-for="Menu.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Chọn ảnh</label>
+                        <input asp-for="Menu.ImageFile" type="file" class="form-control" id="imageFileInput" accept="image/*" />
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <div id="imagePreview" style="display: flex; gap: 10px;">
+                            <img id="selectedImage" src="#" alt="Selected Image" style="max-width: 400px; height: auto; display: none;" />
+                            <img id="thumbnailImage" src="#" alt="Thumbnail" style="max-height: 100px; width: auto; display: none;" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 position-relative">
+                        <label class="form-label" for="validationTooltip03">Chọn icon</label>
+                        <input asp-for="Menu.IconFile" type="file" class="form-control" id="iconFileInput" accept=".svg" />
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <div id="selectedIcon" style="max-height: 100px; max-width: 100px; display: none;"></div>
+                    </div>
+                   @* <div class="col-md-4 position-relative">
+                        <label class="form-label" for="ParentId">Parent ID</label>
+                        <input asp-for="Menu.ParentId" class="form-control" id="ParentId" placeholder="Parent ID" required />
+                        <span asp-validation-for="Menu.ParentId" class="text-danger"></span>
+                    </div> *@
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="ParentId">Parent ID</label>
+                        <select id="ParentId" name="ParentId" asp-for="Menu.ParentId" class="form-control coreui-select">
+                            <option value="0">Select Parent</option>
+                            @if (Model.MenuItems != null && Model.MenuItems.Any())
+                            {
+                                foreach (var item in Model.MenuItems)
+                                {
+                                    @RenderMenuOptions(item)
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No Parent Items Available</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Menu.ParentId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" for="SortOrder">Sort Order</label>
+                        <input asp-for="Menu.SortOrder" type="number" class="form-control" id="SortOrder" placeholder="Sort Order" required />
+                        <span asp-validation-for="Menu.SortOrder" class="text-danger"></span>
+                    </div>
+
+                   @*  <div class="col-md-4 position-relative">
+                        <label class="form-label" for="PositionType">Position Type</label>
+                        <input asp-for="Menu.PositionType" class="form-control" id="PositionType" placeholder="Position Type" required />
+                        <span asp-validation-for="Menu.PositionType" class="text-danger"></span>
+                    </div> *@
+
+                    <div class="col-md-4 position-relative">
+                        <label class="form-label" asp-for="Menu.PositionType"></label>
+                        <select asp-for="Menu.PositionType" class="form-control">
+                            <option value="">Chọn vai trò</option>
+                            @foreach (var role in Enum.GetValues(typeof(MenuPositionType)).Cast<MenuPositionType>())
+                            {
+                                <option value="@((int)role)">@role</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Menu.PositionType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit">Xác nhận</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- JavaScript for image and SVG icon previews -->
+<script>
+    // Preview selected image and thumbnail
+    document.getElementById("imageFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var selectedImage = document.getElementById("selectedImage");
+            selectedImage.src = reader.result;
+            selectedImage.style.display = "block";
+
+            // Generate and show thumbnail
+            var thumbnailCanvas = document.createElement('canvas');
+            var thumbnailContext = thumbnailCanvas.getContext('2d');
+            var img = new Image();
+            img.src = reader.result;
+            img.onload = function () {
+                thumbnailCanvas.width = 100; // Set thumbnail width
+                thumbnailCanvas.height = 100; // Set thumbnail height
+                thumbnailContext.drawImage(img, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+                var thumbnailImage = document.getElementById("thumbnailImage");
+                thumbnailImage.src = thumbnailCanvas.toDataURL(); // Create thumbnail
+                thumbnailImage.style.display = "block"; // Show thumbnail
+            };
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+    // Preview selected SVG icon
+    document.getElementById("iconFileInput").addEventListener("change", function (event) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var selectedIcon = document.getElementById("selectedIcon");
+            selectedIcon.innerHTML = ''; // Clear previous icon
+            var object = document.createElement('object');
+            object.setAttribute('data', reader.result); // Use the file content
+            object.setAttribute('type', 'image/svg+xml'); // Ensure it's treated as SVG
+            object.style.maxHeight = "50px"; // Set max height
+            object.style.maxWidth = "50px"; // Set max width
+            selectedIcon.appendChild(object); // Add the object to the preview div
+            selectedIcon.style.display = "block"; // Show the icon
+            selectedIcon.innerHTML = reader.result; // Display SVG content directly
+            selectedIcon.style.display = "block"; // Make sure the icon is visible
+        };
+
+        reader.readAsText(event.target.files[0]); // Read the SVG file as text
+
+    });
+    $(document).ready(function () {
+        $("#myForm").submit(function (event) {
+            var name = $("#name").val();
+            // var imageFile = $("#imageFileInput").val();
+         
+            var parentId = $("#ParentId").val();
+            var sortOrder = $("#SortOrder").val();
+            var positionType = $("#PositionType").val();
+
+            // Client-side validation
+            if (name.trim() === "") {
+                alert("Name is required");
+                event.preventDefault();
+            }
+            // if (imageFile.trim() === "") {
+            //     alert("Image file is required");
+            //     event.preventDefault();
+            // }
+          
+            if (isNaN(parentId) || parentId.trim() === "") {
+                alert("Parent ID must be a valid number");
+                event.preventDefault();
+            }
+            if (isNaN(sortOrder) || sortOrder.trim() === "") {
+                alert("Sort Order must be a valid number");
+                event.preventDefault();
+            }
+            if (positionType.trim() === "") {
+                alert("Position Type is required");
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+@functions {
+    public IHtmlContent RenderMenuOptions(MenuCreateViewModel.MenuItem item)
+    {
+        var result = new HtmlContentBuilder();
+
+        // Tạo tag <option> cho item hiện tại
+        var option = new TagBuilder("option");
+        option.Attributes["value"] = item.Id.ToString();
+        option.Attributes["data-level"] = item.Level.ToString();
+        option.InnerHtml.Append(item.Prefix + " " + item.Name);
+
+        result.AppendHtml(option);
+
+        // Đệ quy để thêm các mục con, nếu có
+        if (item.Children != null && item.Children.Any())
+        {
+            foreach (var childItem in item.Children)
+            {
+                result.AppendHtml(RenderMenuOptions(childItem)); // Gọi đệ quy cho mục con
+            }
+        }
+
+        return result;
+    }
+}

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class SlideService : ISlideService
     {

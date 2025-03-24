@@ -8,7 +8,7 @@ using System.Security.Claims;
 using X.PagedList;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace AODWebsite.Services
+namespace LGWebsite.Services
 {
     public class UserService : IUserService
     {
